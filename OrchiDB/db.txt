@@ -110,7 +110,7 @@ const copyDb = (dbName, dbPass) => {
     dbName = `Copy of ${dbInfo.dbName}`;
   }
   if(dbInfo.dbInputPass === dbInfo.dbPass){
-    const copy = path.join('./OrchiDB-JS', dbName);
+    const copy = path.join('./OrchiDB', dbName);
     try{
       fs.cpSync(__dirname, copy, {recursive: true});
       fs.writeFileSync(path.join(copy, 'dbInfo.json'), JSON.stringify({ dbName, dbPass }, null, 2));
