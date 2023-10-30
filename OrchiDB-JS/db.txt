@@ -4,21 +4,21 @@ const dbInfo = require('./dbInfo.json');
 const enterPass = (inputPass) => {
   dbInfo.dbInputPass = inputPass;
 };
-const newFile = (filename) => {
+const newDoc = (filename) => {
   if (dbInfo.dbInputPass === dbInfo.dbPass) {
     const dbPath = path.join(__dirname);
     console.log(dbPath);
     const filePath = path.join(dbPath, filename + '.json');
     if (fs.existsSync(filePath)) {
-      return console.log(`File path ${filePath} exists.`);
+      return console.log(`Document ${filePath} exists.`);
     }
     fs.appendFileSync(filePath, '');
-    console.log(`File ${filename} created.`);
+    console.log(`Document ${filename} created.`);
   } else {
     console.log('Invalid Password.');
   }
 };
-const returnFilePath = (filename) => {
+const returnDocPath = (filename) => {
   if (dbInfo.dbInputPass === dbInfo.dbPass) {
     const dbPath = path.join(__dirname);
     console.log(`Path to ${filename}: ${path.join(dbPath, filename +'.json')}`);
@@ -27,7 +27,7 @@ const returnFilePath = (filename) => {
     console.log('Invalid Password.');
   }
 };
-const deleteFile = (filename) => {
+const deleteDoc = (filename) => {
   if (dbInfo.dbInputPass === dbInfo.dbPass) {
     const dbPath = path.join(__dirname);
     const filePath = path.join(dbPath, filename + '.json');
@@ -36,23 +36,23 @@ const deleteFile = (filename) => {
       fs.rmdirSync(targetPath, { recursive: true });
     }
     fs.renameSync(filePath, targetPath);
-    console.log(`File ${filename} moved to TRASH folder.`);
+    console.log(`Document ${filename} moved to TRASH folder.`);
   } else {
     console.log('Invalid Password.');
   }
 };
-const restoreFile = (filename, pass) => {
+const restoreDoc = (filename) => {
   if (dbInfo.dbInputPass === dbInfo.dbPass) {
     const dbPath = path.join(__dirname);
     const filePath = path.join(__dirname, 'TRASH', filename + '.json');
     if (!fs.existsSync(filePath)) {
-      console.log('File does not exist in trash.');
+      console.log('Document does not exist in trash.');
       return;
     }
     const newFilePath = path.join(dbPath, filename + '.json');
     fs.copyFileSync(filePath, newFilePath);
     fs.unlinkSync(filePath);
-    console.log(`File ${filename} restored.`);
+    console.log(`Document ${filename} restored.`);
   } else {
     console.log('Invalid Password');
   }
@@ -69,22 +69,22 @@ const emptyTrash = () => {
     console.log('Invalid Password.');
   }
 };
-const renameFile = (filename, newFilename) => {
+const renameDoc = (filename, newFilename) => {
   if (dbInfo.dbInputPass === dbInfo.dbPass) {
     const dbPath = path.join(__dirname);
     const filePath = path.join(dbPath, filename + '.json');
     const newFilePath = path.join(dbPath, newFilename + '.json');
     if (fs.existsSync(newFilePath)) {
-      console.log(`File ${newFilename} already exists.`);
+      console.log(`Document ${newFilename} already exists.`);
       return;
     }
     fs.renameSync(filePath, newFilePath);
-    console.log(`File ${filename} changed to ${newFilename}.`);
+    console.log(`Document ${filename} changed to ${newFilename}.`);
   } else {
     console.log('Invalid Password.');
   }
 };
-const readFile = (filename) => {
+const readDoc = (filename) => {
   if (dbInfo.dbInputPass === dbInfo.dbPass) {
     const dbPath = path.join(__dirname);
     const filePath = path.join(dbPath, filename + '.json');
@@ -95,12 +95,12 @@ const readFile = (filename) => {
     console.log('Invalid Password.');
   }
 };
-const writeFile = (filename, data) => {
+const writeDoc = (filename, data) => {
   if (dbInfo.dbInputPass === dbInfo.dbPass) {
     const dbPath = path.join(__dirname);
     const filePath = path.join(dbPath, filename + '.json');
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-    console.log(`File ${filename} written to.`);
+    console.log(`Document ${filename} written to.`);
   } else {
     console.log('Invalid Password.');
   }
@@ -189,14 +189,14 @@ const deleteDb = (pass) => {
 };
 module.exports = {
   enterPass,
-  newFile,
-  deleteFile,
-  returnFilePath,
-  restoreFile,
+  newDoc,
+  deleteDoc,
+  returnPath,
+  restoreDoc,
   emptyTrash,
-  renameFile,
-  readFile,
-  writeFile,
+  renameDoc,
+  readDoc,
+  writeDoc,
   deleteDb,
   deleteDbWithoutTimeout,
   copyDb

@@ -22,38 +22,38 @@ const start = () =>{
     dbInfo = require(path.join(__dirname, dbName, 'dbInfo.json'));
     console.log(`<<Database ${dbName} Selected`);
     start();
-  }else if(command == 'NEW_FILE'){
-    const fileName = prompt('<<Enter File Name: \n>>');
-    db.newFile(fileName);
+  }else if(command == 'NEW_DOC'){
+    const docName = prompt('<<Enter Doc Name: \n>>');
+    db.newDoc(docName);
     start();
-  }else if(command == 'READ_FILE'){
-    const fileName = prompt('<<Enter File Name: \n>>');
-    db.readFile(fileName);
+  }else if(command == 'READ_DOC'){
+    const docName = prompt('<<Enter Doc Name: \n>>');
+    db.readDoc(docName);
     start();
-  }else if(command == 'WRITE_FILE'){
-    const fileName = prompt('<<Enter File Name: \n>>');
+  }else if(command == 'WRITE_DOC'){
+    const docName = prompt('<<Enter Doc Name: \n>>');
     const content = prompt('<<Enter Content: \n>>');
-    db.writeFile(fileName, content);
+    db.writeDoc(docName, content);
     start();
-  }else if(command == 'DELETE_FILE'){
-    const fileName = prompt('<<Enter File Name: \n>>');
-    db.deleteFile(fileName);
+  }else if(command == 'DELETE_DOC'){
+    const docName = prompt('<<Enter Doc Name: \n>>');
+    db.deleteDoc(docName);
     start();
-  }else if(command == 'RESTORE_FILE'){
-    const fileName = prompt('<<Enter File Name: \n>>');
-    db.restoreFile(fileName);
+  }else if(command == 'RESTORE_DOC'){
+    const docName = prompt('<<Enter Doc Name: \n>>');
+    db.restoreDoc(docName);
     start();
   }else if(command == 'EMPTY_TRASH'){
     db.emptyTrash();
     start();
-  }else if(command == 'RENAME_FILE'){
-    const fileName = prompt('<<Enter File Name: \n>>');
-    const newName = prompt('<<Enter New File Name: \n>>');
-    db.renameFile(fileName, newName);
+  }else if(command == 'RENAME_DOC'){
+    const docName = prompt('<<Enter Doc Name: \n>>');
+    const newName = prompt('<<Enter New Doc Name: \n>>');
+    db.renameDoc(docName, newName);
     start();
-  }else if(command == 'RETURN_FILE_PATH'){
-    const fileName = prompt('<<Enter File Name: \n>>');
-    db.returnFilePath(fileName);
+  }else if(command == 'RETURN_PATH'){
+    const docName = prompt('<<Enter Doc Name: \n>>');
+    db.returnPath(docName);
     start();
   }else if(command == 'COPY_DB'){
     const dbName = prompt('<<Enter Database Name: \n>>');
