@@ -30,7 +30,13 @@ const start = () => {
       start();
       break;
     case 'RETURN_SELECTED_DB':
-      console.log(`<<Database ${dbInfo.dbName} is curently selected.`);
+      if(dbInfo.dbName === 'undefined'){
+        console.log('<<No Database Curently Selected');
+      }else{
+        console.log(`<<Database ${dbInfo.dbName} is Curently Selected.`);
+      }
+      start();
+      break;
     case 'NEW_DOC':
       const newDocName = prompt('<<Enter Doc Name: \n>>');
       db.newDoc(newDocName);
