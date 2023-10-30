@@ -196,6 +196,24 @@ const listDocs = () => {
     console.log('Invalid Password.')
   }
 };
+const editDoc = (filename, variable, value) => {
+  if (dbInfo.dbInputPass === dbInfo.dbPass) {
+    const dbPath = path.join(__dirname);
+    const filePath = path.join(dbPath, filename + '.json');
+
+    if (fs.existsSync(filePath)) {
+      const data = fs.readFileSync(filePath, 'utf8');
+      const jsonData = JSON.parse(data);
+      jsonData[variable] = value;
+      fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
+      console.log(`Variable '${variable}' updated in file '${filename}.json'`);
+    } else {
+      console.log(`File '${filename}.json' does not exist.`);
+    }
+  } else {
+    console.log('Invalid Password.');
+  }
+};
 module.exports = {
   enterPass,
   newDoc,
@@ -209,5 +227,6 @@ module.exports = {
   deleteDb,
   deleteDbWithoutTimeout,
   copyDb,
-  listDocs
+  listDocs,
+  editDocs
 };
