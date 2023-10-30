@@ -68,6 +68,12 @@ const start = () =>{
   }else if(command == 'CLEAR'){
     console.clear();
     start();
+  }else if(command == 'EDIT_DOC'){
+    const docName = prompt("<<Enter Doc Name: \n>>");
+    const variable = prompt("<<Enter Variable Name: \n>>");
+    const value = prompt("<<Enter Value: \n>>");
+    db.editDoc(docName, variable, value);
+    start();
   }else{
     console.log('<<Invalid Command');
     start();
