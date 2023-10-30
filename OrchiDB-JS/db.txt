@@ -110,7 +110,7 @@ const copyDb = (dbName, dbPass) => {
     dbName = `Copy of ${dbInfo.dbName}`;
   }
   if(dbInfo.dbInputPass === dbInfo.dbPass){
-    const copy = path.join('./JSON-DB-v2', dbName);
+    const copy = path.join('./OrchiDB-JS', dbName);
     try{
       fs.cpSync(__dirname, copy, {recursive: true});
       fs.writeFileSync(path.join(copy, 'dbInfo.json'), JSON.stringify({ dbName, dbPass }, null, 2));
@@ -126,8 +126,8 @@ const deleteDbWithoutTimeout = (pass, confirmation) =>{
   try {
     if(confirmation == 'Y'){
       if (dbInfo.dbInputPass === dbInfo.dbPass && pass === dbInfo.dbPass) {
-        const targetDbName = dbInfo.dbName; // Store the current dbName before deleting the database
-        const dbPath = path.join(__dirname, '..', targetDbName); // Specify the correct path to the database directory
+        const targetDbName = dbInfo.dbName;
+        const dbPath = path.join(__dirname, '..', targetDbName);
         const deleteFolderRecursive = (directory) => {
           if (fs.existsSync(directory)) {
             fs.readdirSync(directory).forEach((file) => {
@@ -160,8 +160,8 @@ const deleteDb = (pass) => {
   setTimeout(() => {
     try {
       if (dbInfo.dbInputPass === dbInfo.dbPass && pass === dbInfo.dbPass) {
-        const targetDbName = dbInfo.dbName; // Store the current dbName before deleting the database
-        const dbPath = path.join(__dirname, '..', targetDbName); // Specify the correct path to the database directory
+        const targetDbName = dbInfo.dbName;
+        const dbPath = path.join(__dirname, '..', targetDbName);
         const deleteFolderRecursive = (directory) => {
           if (fs.existsSync(directory)) {
             fs.readdirSync(directory).forEach((file) => {
@@ -174,7 +174,7 @@ const deleteDb = (pass) => {
             });
             fs.rmdirSync(directory);
           } else {
-            console.log(`Database ${targetDbName} does not exist.`); 
+            console.log(`Database ${targetDbName} does not exist.`);
           }
         };
         deleteFolderRecursive(dbPath);
