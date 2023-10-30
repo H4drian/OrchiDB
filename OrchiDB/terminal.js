@@ -29,6 +29,8 @@ const start = () => {
       console.log(`<<Database ${selectDbName} Selected`);
       start();
       break;
+    case 'RETURN_SELECTED_DB':
+      console.log(`<<Database ${dbInfo.dbName} is curently selected.`);
     case 'NEW_DOC':
       const newDocName = prompt('<<Enter Doc Name: \n>>');
       db.newDoc(newDocName);
