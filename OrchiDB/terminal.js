@@ -3,10 +3,8 @@ const init = require('./init.js');
 const prompt = require('prompt-sync')();
 let db = '';
 let dbInfo = '';
-
 const start = () => {
   let command = prompt('>>');
-
   switch (command) {
     case 'EXIT':
       console.log('<<Exiting Terminal');
