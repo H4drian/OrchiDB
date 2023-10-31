@@ -51,7 +51,7 @@ const start = () => {
       db.writeDoc(writeDocName, content);
       start();
       break;
-    case 'DELETE_DOC':
+    case 'DEL_DOC':
       const deleteDocName = prompt('<<Enter Doc Name: \n>>');
       db.deleteDoc(deleteDocName);
       start();
