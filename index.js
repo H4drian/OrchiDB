@@ -1,2 +1,2 @@
-const orchidium = require('./OrchiDB/interpreter.js')
-orchidium.run('test');
+const orchidQL = require('./OrchiDB/interpreter.js')
+orchidQL.run('test');

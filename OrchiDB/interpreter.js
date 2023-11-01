@@ -58,7 +58,6 @@ const run = (file) =>{
         }else{
           console.log(`<<Database ${dbInfo.dbName} is Curently Selected.`);
         }
-        start();
         break;
       case 'NEW_DOC':
         db.newDoc(splitLine[1]);
@@ -83,8 +82,8 @@ const run = (file) =>{
       case 'RENAME_DOC':
         db.renameDoc(splitLine[1], splitLine[2]);
         break;
-      case 'RETURN_PATH':
-        db.returnPath(splitLine[1]);
+      case 'RETURN_DOC_PATH':
+        db.returnDocPath(splitLine[1]);
         break;
       case 'COPY_DB':
         db.copyDb(splitLine[1], splitLine[2]);
@@ -103,6 +102,8 @@ const run = (file) =>{
         break;
       case 'LIST_DOCS':
         db.listDocs();
+        break;
+      case '*':
         break;
       default:
         console.log('Error: Ln' + i + ', Command Not Found');
