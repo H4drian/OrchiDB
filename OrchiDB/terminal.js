@@ -1,6 +1,7 @@
 const path = require('path');
 const init = require('./init.js');
 const prompt = require('prompt-sync')();
+const orchidium = require('./interpreter.js');
 let db = '';
 let dbInfo = '';
 const start = () => {
@@ -99,6 +100,9 @@ const start = () => {
       db.editDoc(editDocName, variable, value);
       start();
       break;
+    case 'RUN_ORCHIDIUM':
+      const codeFilePath = prompt('<<Enter File Path: \n>>');
+      orchidium.run(codeFilePath);
     default:
       console.log('<<Invalid Command');
       start();

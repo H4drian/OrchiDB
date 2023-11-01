@@ -228,5 +228,5 @@ module.exports = {
   deleteDbWithoutTimeout,
   copyDb,
   listDocs,
-  editDocs
+  editDoc
 };
