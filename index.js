@@ -1,2 +1,2 @@
-const orchidQL = require('./OrchiDB/interpreter.js')
-orchidQL.run('test');
+const terminal = require('./OrchiDB/terminal.js');
+terminal.start();
