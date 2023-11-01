@@ -101,6 +101,9 @@ const run = (file) =>{
       case 'DEL_DOC_VAR':
         db.deleteVariable(splitLine[1], splitLine[2]);
         break;
+      case 'LIST_DOCS':
+        db.listDocs();
+        break;
       default:
         console.log('Error: Ln' + i + ', Command Not Found');
         break;

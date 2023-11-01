@@ -116,6 +116,10 @@ const start = () => {
       db.delDocVar(docName, varName);
       start();
       break;
+    case 'LIST_DOCS':
+      db.listDocs();
+      start();
+      break;
     default:
       console.log('<<Invalid Command');
       start();
