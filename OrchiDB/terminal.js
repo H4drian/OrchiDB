@@ -93,7 +93,7 @@ const start = () => {
       console.clear();
       start();
       break;
-    case 'EDIT_DOC':
+    case 'EDIT_DOC_VAR':
       const editDocName = prompt("<<Enter Doc Name: \n>>");
       const variable = prompt("<<Enter Variable Name: \n>>");
       const value = prompt("<<Enter Value: \n>>");
@@ -103,6 +103,19 @@ const start = () => {
     case 'RUN_ORCHIDIUM':
       const codeFilePath = prompt('<<Enter File Path: \n>>');
       orchidium.run(codeFilePath);
+    case 'ADD_DOC_VAR':
+      const docName = prompt('<<Enter Doc Name: \n>>');
+      const varName = prompt('<<Enter Variable Name: \n>>');
+      const varValue = prompt('<<Enter Variable Value: \n>>');
+      db.addDocVar(docName, varName, varValue);
+      start();
+      break;
+    case 'DEL_DOC_VAR':
+      const docName = prompt("<<Enter Doc Name: \n>>");
+      const varName = prompt("<<Enter Variable Name: \n>>");
+      db.delDocVar(docName, varName);
+      start();
+      break;
     default:
       console.log('<<Invalid Command');
       start();

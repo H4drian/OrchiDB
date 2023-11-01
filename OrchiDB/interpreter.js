@@ -39,7 +39,6 @@ const run = (file) =>{
   for(let i = 1; i <= countLinesOfCode(filepath); i++){
     const line = getCodeAtLine(filepath, i);
     const splitLine = line.split(' ');
-    console.log(splitLine);
     const command = splitLine[0];
     switch(command){
       case 'ENTER_PASS':
@@ -92,8 +91,15 @@ const run = (file) =>{
         break;
       case 'DEL_DB':
         db.deleteDb(splitLine[1]);
-      case 'EDIT_DOC':
+        break;
+      case 'EDIT_DOC_VAR':
         db.editDoc(splitLine[1], splitLine[2], splitLine[3]);
+        break;
+      case 'ADD_DOC_VAR':
+        db.addVariable(splitLine[1], splitLine[2], splitLine[3]);
+        break;
+      case 'DEL_DOC_VAR':
+        db.deleteVariable(splitLine[1], splitLine[2]);
         break;
       default:
         console.log('Error: Ln' + i + ', Command Not Found');

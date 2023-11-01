@@ -1,2 +1,2 @@
-const terminal = require('./OrchiDB/terminal.js');
-terminal.start();
+const orchidium = require('./OrchiDB/interpreter.js')
+orchidium.run('test');

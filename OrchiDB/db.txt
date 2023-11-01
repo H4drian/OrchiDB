@@ -206,11 +206,35 @@ const editDoc = (filename, variable, value) => {
       const jsonData = JSON.parse(data);
       jsonData[variable] = value;
       fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
-      console.log(`Variable '${variable}' updated in file '${filename}.json'`);
+      console.log(`Variable '${variable}' set to ${value} in file '${filename}.json'`);
     } else {
       console.log(`File '${filename}.json' does not exist.`);
     }
   } else {
+    console.log('Invalid Password.');
+  }
+};
+const addVariable = (filename, variable, value) => {
+  if(dbInfo.dbPass === dbInfo.dbInputPass){
+    const filePath = path.join(__dirname, filename + '.json');
+    const data = fs.readFileSync(filePath, 'utf8');
+    const jsonData = JSON.parse(data);
+    jsonData[variable] = value;
+    fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
+    console.log(`New variable ${variable} with value ${value} added to file ${filename}.`);
+  }else{
+    console.log('Invalid Password.');
+  }
+};
+const deleteVariable = (filename, variable) => {
+  if(dbInfo.dbPass === dbInfo.dbInputPass){
+    const filePath = path.join(__dirname, filename + '.json');
+    const data = fs.readFileSync(filePath, 'utf8');
+    const jsonData = JSON.parse(data);
+    delete jsonData[variable];
+    fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
+    console.log(`Variable ${variable} removed from file ${filename}.`);
+  }else{
     console.log('Invalid Password.');
   }
 };
@@ -228,5 +252,7 @@ module.exports = {
   deleteDbWithoutTimeout,
   copyDb,
   listDocs,
-  editDoc
+  editDoc,
+  addVariable,
+  deleteVariable
 };
