@@ -98,12 +98,13 @@ const start = () => {
       const editDocName = prompt("<<Enter Doc Name: \n>>");
       const variable = prompt("<<Enter Variable Name: \n>>");
       const value = prompt("<<Enter Value: \n>>");
-      db.editDoc(editDocName, variable, value);
+      db.editVariable(editDocName, variable, value);
       start();
       break;
     case 'RUN_ORCHIDIUM':
       const codeFilePath = prompt('<<Enter File Path: \n>>');
       orchidium.run(codeFilePath);
+      break;
     case 'ADD_DOC_VAR':
       const addDocName = prompt('<<Enter Doc Name: \n>>');
       const addVarName = prompt('<<Enter Variable Name: \n>>');

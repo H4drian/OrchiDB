@@ -196,7 +196,7 @@ const listDocs = () => {
     console.log('Invalid Password.')
   }
 };
-const editDoc = (filename, variable, value) => {
+const editVariable = (filename, variable, value) => {
   if (dbInfo.dbInputPass === dbInfo.dbPass) {
     const dbPath = path.join(__dirname);
     const filePath = path.join(dbPath, filename + '.json');
@@ -252,7 +252,7 @@ module.exports = {
   deleteDbWithoutTimeout,
   copyDb,
   listDocs,
-  editDoc,
+  editVariable,
   addVariable,
   deleteVariable
 };

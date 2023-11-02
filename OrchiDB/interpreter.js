@@ -92,7 +92,7 @@ const run = (file) =>{
         db.deleteDb(splitLine[1]);
         break;
       case 'EDIT_DOC_VAR':
-        db.editDoc(splitLine[1], splitLine[2], splitLine[3]);
+        db.editVariable(splitLine[1], splitLine[2], splitLine[3]);
         break;
       case 'ADD_DOC_VAR':
         db.addVariable(splitLine[1], splitLine[2], splitLine[3]);
