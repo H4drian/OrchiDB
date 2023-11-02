@@ -122,6 +122,12 @@ const start = () => {
       db.listDocs();
       start();
       break;
+    case 'READ_DOC_VAR':
+      const readDocName = prompt('<<Enter Doc Name: \n>>');
+      const readVarName = prompt('<<Enter Variable Name: \n>>');
+      db.readVariable(readDocName, readVarName);
+      start();
+      break;
     default:
       console.log('<<Invalid Command');
       start();

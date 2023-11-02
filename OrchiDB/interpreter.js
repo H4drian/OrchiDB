@@ -103,6 +103,9 @@ const run = (file) =>{
       case 'LIST_DOCS':
         db.listDocs();
         break;
+      case 'READ_DOC_VAR':
+        db.readVariable(splitLine[1], splitLine[2]);
+        break;
       case '*':
         break;
       case '':

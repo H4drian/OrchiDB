@@ -226,6 +226,11 @@ const addVariable = (filename, variable, value) => {
     console.log('Invalid Password.');
   }
 };
+const returnVariable = (docName, variable) => {
+  const doc = require(path.join(__dirname, docName + '.json'));
+  console.log(`${doc[docName][variable]}`);
+  return doc[docName][variable];
+}
 const deleteVariable = (filename, variable) => {
   if(dbInfo.dbPass === dbInfo.dbInputPass){
     const filePath = path.join(__dirname, filename + '.json');
