@@ -1,7 +1,7 @@
 const path = require('path');
 const init = require('./init.js');
 const prompt = require('prompt-sync')();
-const orchidium = require('./interpreter.js');
+const orchidQL= require('./interpreter.js');
 let db = '';
 let dbInfo = '';
 const start = () => {
@@ -101,9 +101,9 @@ const start = () => {
       db.editVariable(editDocName, variable, value);
       start();
       break;
-    case 'RUN_ORCHIDIUM':
+    case 'RUN_ORCHIDQL':
       const codeFilePath = prompt('<<Enter File Path: \n>>');
-      orchidium.run(codeFilePath);
+      orchidQL.run(codeFilePath);
       break;
     case 'ADD_DOC_VAR':
       const addDocName = prompt('<<Enter Doc Name: \n>>');

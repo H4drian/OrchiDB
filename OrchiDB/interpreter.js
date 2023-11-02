@@ -105,6 +105,8 @@ const run = (file) =>{
         break;
       case '*':
         break;
+      case '':
+        break;
       default:
         console.log('Error: Ln' + i + ', Command Not Found');
         break;
