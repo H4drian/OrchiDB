@@ -1,5 +1,5 @@
 * OrchidQL Test Program
-
+*
 INIT_DB myDb 123
 SELECT_DB myDb
 ENTER_PASS 123

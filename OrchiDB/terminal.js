@@ -48,7 +48,8 @@ const start = () => {
       break;
     case 'WRITE_DOC':
       const writeDocName = prompt('<<Enter Doc Name: \n>>');
-      const content = prompt('<<Enter Content: \n>>');
+      const contentStr = prompt('<<Enter Content: \n>>');
+      const content = JSON.parse(contentStr);
       db.writeDoc(writeDocName, content);
       start();
       break;
@@ -104,16 +105,16 @@ const start = () => {
       const codeFilePath = prompt('<<Enter File Path: \n>>');
       orchidium.run(codeFilePath);
     case 'ADD_DOC_VAR':
-      const docName = prompt('<<Enter Doc Name: \n>>');
-      const varName = prompt('<<Enter Variable Name: \n>>');
+      const addDocName = prompt('<<Enter Doc Name: \n>>');
+      const addVarName = prompt('<<Enter Variable Name: \n>>');
       const varValue = prompt('<<Enter Variable Value: \n>>');
-      db.addDocVar(docName, varName, varValue);
+      db.addDocVar(addDocName, addVarName, varValue);
       start();
       break;
     case 'DEL_DOC_VAR':
-      const docName = prompt("<<Enter Doc Name: \n>>");
-      const varName = prompt("<<Enter Variable Name: \n>>");
-      db.delDocVar(docName, varName);
+      const delDocName = prompt("<<Enter Doc Name: \n>>");
+      const delVarName = prompt("<<Enter Variable Name: \n>>");
+      db.delDocVar(delDocName, delVarName);
       start();
       break;
     case 'LIST_DOCS':
