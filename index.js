@@ -10,4 +10,6 @@ console.log('| Manage Data easily through text based input,    |');
 console.log('| QL and Javascript. For more information please  |');
 console.log('| visit https://github.com/OrchiDB/OrchiDB or     |');
 console.log('| read the markdown file inside this replit.      |');
+console.log('| OrchiDB is still in early development so expect |');
+console.log('| some errors.                                    |');
 console.log('|-------------------------------------------------|');
