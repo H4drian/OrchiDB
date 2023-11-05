@@ -1,7 +1,7 @@
 const path = require('path');
 const init = require('./init.js');
 const prompt = require('prompt-sync')();
-const orchidQL= require('./interpreter.js');
+const orchidQL= require('./orchidQL.js');
 let db = '';
 let dbInfo = '';
 const start = () => {
