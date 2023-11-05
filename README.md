@@ -172,28 +172,42 @@ The keywords in OrchidQL are the same as the ones for the terminal. Commands are
 ~~~
 For example,
 ~~~
-WRITE_FILE john {name: "John", age: 22}
+WRITE_DOC john {name: "John", age: 22}
 ~~~
-Comments in OrchidQL are prefixed with *, and all comments are written on empty lines without code.
+To write comments in OrchidQL, prefix them with an #. Comments can be Inline or on a seperate line of their own.
 ~~~
-* This works
-NEW_FILE john
+# Hi, this is a comment
+NEW_DOC john #This also works as a comment
 ~~~
+Variables can be declared in OrchidQL. To define a variable use the VAR command and declare the variable name and value,
 ~~~
-NEW_FILE john * This does not
+VAR myVariable := hello
 ~~~
+Variables are inputed as strings, you cannot have whitespace characters in the variable otherwise only the first part of it will be saved.
+~~~
+# This works
+VAR docName := johnFromHr
 
+# This doesn't work
+VAR docName := john from hr
+~~~
+To use the variable use an * followed by the variable name, then the value of the parameter will be set to that of the variable. 
+~~~
+VAR myVariable := john  #creates variable named john
+NEW_DOC *myVariable  #creates a document named john 
+~~~ 
 Example Program
 ~~~
-* Test.orc
-* OrchidQL test program
+# Test.orc
+# OrchidQL test program
 
 INIT_DB myDb 123
 SELECT_DB myDb
 ENTER_PASS 123
 RETURN_SELECTED_DB
 NEW_DOC john
-WRITE_DOC john {name: 'John', age: 22}
+VAR docName := john
+WRITE_DOC *docName {name: 'John', age: 22}
 READ_DOC john
 EDIT_DOC_VAR john age 32
 ADD_DOC_VAR john country USA

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const init = require(path.join(__dirname, './init.js'));
+const heap = {};
 let db = '';
 const splitLine = (str) => {
   let startIndex = str.indexOf('{');
@@ -14,6 +15,12 @@ const splitLine = (str) => {
 };
 const joinArrayRange = (array, start, stop) => {
     return array.slice(start, stop).join('');
+}
+const varTest = (str) => {
+  return str.charAt(0) === '*';
+}
+const returnVarName = (str) => {
+  return str.slice(1);
 }
 const getCodeAtLine = (filepath, line_number) => {
     const fs = require('fs');
@@ -40,6 +47,11 @@ const run = (file) =>{
     const line = getCodeAtLine(filepath, i);
     const splitLine = line.split(' ');
     const command = splitLine[0];
+    for(let j = 0; j < splitLine.length; j++){
+      if(varTest(splitLine[j])){
+        splitLine[j] = heap[returnVarName(splitLine[j])];
+      }
+    }
     switch(command){
       case 'ENTER_PASS':
         db.enterPass(splitLine[1]);
@@ -106,7 +118,24 @@ const run = (file) =>{
       case 'READ_DOC_VAR':
         db.readVariable(splitLine[1], splitLine[2]);
         break;
-      case '*':
+      case 'VAR':
+        const varName = splitLine[1];
+        if(!splitLine[2] == ':='){
+          console.log(`Error: Ln ${i}, Syntax Error - Expected ':=', Got ${splitLine[2]}`);
+        }
+        const varValue = splitLine[3];
+        heap[varName] = varValue;
+        break;
+      case 'OBJ':
+        const objName = splitLine[1];
+        if(!splitLine[2] == ':='){
+          console.log(`Error: Ln ${i}, Syntax Error - Expected ':=', Got ${splitLine[2]}`);
+        }
+        const objValue = (joinArrayRange(splitLine, 3, splitLine.length).replace(/'/g, '"').replace(/([a-zA-Z_]+):/g, '"$1":'));
+        heap[objName] = JSON.parse(objValue);
+        break;
+      case 'PRINT':
+      case '#':
         break;
       case '':
         break;
