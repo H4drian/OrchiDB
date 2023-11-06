@@ -4,15 +4,15 @@
 
 # OrchiDB JavaScript Functions
 OrchiDB is able to take data queries via JavaScript functions using the init and db modules.
-## To Create a Database
-To create a database using JavaScript functions, import the init.js module from the OrchiDb folder and call the db() function. The parameters for the db function are the database name and database password, both being strings. Example: 
+## To Create a Collection
+To create a collection using JavaScript functions, import the init.js module from the OrchiDb folder and call the collection(colName) function.
 ~~~
 const init = require('./OrchiDB/init.js');
-init.db('exampleDb', '123');
+init.db('exampleCollection');
 ~~~
-The code above creates a database folder named exampleDb inside of the OrchiDB folder.
+The code above creates a collection folder named exampleCollection inside of the OrchiDB folder.
 ## To write data queries using JavaScript Functions
-The db.js module included in every initialized database is the primary module used to read and modify documents in a database using JavaScript functions. To import the functions in db.js, find the directory to your database's folder and add /db.js to it. 
+The db.js module included in every initialized collection is the primary module used to read and modify documents in a database using JavaScript functions. To import the functions in db.js, find the directory to your database's folder and add /db.js to it. 
 ~~~
 const db = require('./OrchiDB/exampleDb/db.js');
 ~~~
