@@ -70,19 +70,19 @@ const writeDoc = (filename, data) => {
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
     console.log(`Document ${filename} written to.`);
 };
-const copyCol = (dbName, dbPass) => {
+const copyCol = (colName) => {
     if (dbName == null) {
         dbName = `Copy of ${dbInfo.dbName}`;
     }
-    const copy = path.join('./OrchiDB', dbName);
+    const copy = path.join('./OrchiDB', colNameName);
     try {
         fs.cpSync(__dirname, copy, { recursive: true });
-        fs.writeFileSync(path.join(copy, 'dbInfo.json'), JSON.stringify({ dbName, dbPass }, null, 2));
-        console.log(`Database ${dbInfo.dbName} copied to ${dbName}.`);
+        fs.writeFileSync(path.join(copy, 'dbInfo.json'), JSON.stringify({ colName }, null, 2));
+        console.log(`Collection ${dbInfo.dbName} copied to ${dbName}.`);
         copyDbInfo = require(path.join(copy, 'dbInfo.json'));
         copyDbInfo.dbName = dbName;
     } catch (err) {
-        console.log(`Error in copying database ${dbInfo.dbName}: ${err}`)
+        console.log(`Error in copying collection ${dbInfo.dbName}: ${err}`)
     }
 };
 const deleteColWithoutTimeout = (pass, confirmation) => {
@@ -102,13 +102,13 @@ const deleteColWithoutTimeout = (pass, confirmation) => {
                     });
                     fs.rmdirSync(directory);
                 } else {
-                    console.log(`Database ${targetDbName} does not exist.`);
+                    console.log(`Collection ${targetDbName} does not exist.`);
                 }
             };
             deleteFolderRecursive(dbPath);
-            console.log(`Database ${targetDbName} deleted.`);
+            console.log(`Collection ${targetDbName} deleted.`);
         } else {
-            console.log('Database deletion canceled.')
+            console.log('Collection deletion canceled.')
         }
     } catch (err) {
         console.error(err);
@@ -132,11 +132,11 @@ const deleteCol = (pass) => {
                     });
                     fs.rmdirSync(directory);
                 } else {
-                    console.log(`Database ${targetDbName} does not exist.`);
+                    console.log(`Collection ${targetDbName} does not exist.`);
                 }
             };
             deleteFolderRecursive(dbPath);
-            console.log(`Database ${targetDbName} deleted.`);
+            console.log(`Collection ${targetDbName} deleted.`);
         } catch (err) {
             console.error(err);
         }
