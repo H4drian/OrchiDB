@@ -10,11 +10,6 @@ const start = () => {
     case 'EXIT':
       console.log('<<Exiting Terminal');
       break;
-    case 'ENTER_PASS':
-      const pass = prompt('<<Enter Password: \n>>');
-      db.enterPass(pass);
-      start();
-      break;
     case 'INIT_DB':
       const dbName = prompt('<<Enter Database Name: \n>>');
       const dbPass = prompt('<<Enter Database Password: \n>>');
@@ -78,13 +73,13 @@ const start = () => {
       db.returnPath(returnPathName);
       start();
       break;
-    case 'COPY_DB':
+    case 'COPY_COL':
       const copyDbName = prompt('<<Enter Database Name: \n>>');
       const copyDbPass = prompt('<<Enter Database Password: \n>>');
       db.copyDB(copyDbName, copyDbPass);
       start();
       break;
-    case 'DEL_DB':
+    case 'DEL_COL':
       const confirm = prompt(`<<Are you sure you want to delete this database (${dbInfo.dbName}) (Y/N)\n>>`);
       const deleteDbPass = prompt('<<Enter Database Password: \n>>');
       db.deleteDbWithoutTimeout(deleteDbPass, confirm);
@@ -123,9 +118,9 @@ const start = () => {
       start();
       break;
     case 'READ_DOC_VAR':
-      const readDocName = prompt('<<Enter Doc Name: \n>>');
+      const readDocname = prompt('<<Enter Doc Name: \n>>');
       const readVarName = prompt('<<Enter Variable Name: \n>>');
-      db.readVariable(readDocName, readVarName);
+      db.readVariable(readDocname, readVarName);
       start();
       break;
     default:

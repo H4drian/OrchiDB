@@ -53,9 +53,6 @@ const run = (file) =>{
       }
     }
     switch(command){
-      case 'ENTER_PASS':
-        db.enterPass(splitLine[1]);
-        break;
       case 'INIT_DB':
         init.db(splitLine[1], splitLine[2]);
         break;
@@ -97,10 +94,10 @@ const run = (file) =>{
       case 'RETURN_DOC_PATH':
         db.returnDocPath(splitLine[1]);
         break;
-      case 'COPY_DB':
+      case 'COPY_COL':
         db.copyDb(splitLine[1], splitLine[2]);
         break;
-      case 'DEL_DB':
+      case 'DEL_COL':
         db.deleteDb(splitLine[1]);
         break;
       case 'EDIT_DOC_VAR':
