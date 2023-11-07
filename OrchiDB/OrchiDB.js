@@ -13,82 +13,102 @@ class collection{
     } else {
       console.log(`Folder ${this.name} already exists.`);
     }
-  }
+  };
 
-  newDoc(filename){
-      const filePath = path.join(this.colPath, filename + '.json');
-      if (fs.existsSync(filePath)) {
-          return console.log(`Document ${filePath} exists.`);
-      }
-      fs.appendFileSync(filePath, '');
-      console.log(`Document ${filename} created.`);
+  newDoc(filename, data){
+    const filePath = path.join(this.colPath, filename + '.json');
+    if (fs.existsSync(filePath)) {
+        return console.log(`Document ${filePath} exists.`);
+    }
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    console.log(`Document ${filename} created.`);
   };
 
   returnDocPath(filename){
-      console.log(`Path to ${filename}: ${path.join(this.colPath, filename + '.json')}`);
-      return path.join(this.colPath, filename + '.json');
+    console.log(`Path to ${filename}: ${path.join(this.colPath, filename + '.json')}`);
+    return path.join(this.colPath, filename + '.json');
   };
 
   deleteDoc(filename){
-      const filePath = path.join(this.colPath, filename + '.json');
-      const targetPath = path.join(this.colPath, 'TRASH', filename + '.json');
-      if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
-          fs.rmdirSync(targetPath, { recursive: true });
-      }
-      fs.renameSync(filePath, targetPath);
-      console.log(`Document ${filename} moved to TRASH folder.`);
+    const filePath = path.join(this.colPath, filename + '.json');
+    const targetPath = path.join(this.colPath, 'TRASH', filename + '.json');
+    if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
+        fs.rmdirSync(targetPath, { recursive: true });
+    }
+    fs.renameSync(filePath, targetPath);
+    console.log(`Document ${filename} moved to TRASH folder.`);
   };
 
   restoreDoc(filename){
-      const filePath = path.join(this.colPath, 'TRASH', filename + '.json');
-      if (!fs.existsSync(filePath)) {
-          console.log('Document does not exist in trash.');
-          return;
-      }
-      const newFilePath = path.join(this.colPath, filename + '.json');
-      fs.copyFileSync(filePath, newFilePath);
-      fs.unlinkSync(filePath);
-      console.log(`Document ${filename} restored.`);
+    const filePath = path.join(this.colPath, 'TRASH', filename + '.json');
+    if (!fs.existsSync(filePath)) {
+        console.log('Document does not exist in trash.');
+        return;
+    }
+    const newFilePath = path.join(this.colPath, filename + '.json');
+    fs.copyFileSync(filePath, newFilePath);
+    fs.unlinkSync(filePath);
+    console.log(`Document ${filename} restored.`);
   };
 
   emptyTrash(){
-      const trashPath = path.join(this.colPath, 'TRASH');
-      fs.readdirSync(trashPath).forEach((file) => {
-          const filePath = path.join(trashPath, file);
-          fs.unlinkSync(filePath);
-      });
-      console.log('Trash emptied.');
+    const trashPath = path.join(this.colPath, 'TRASH');
+    fs.readdirSync(trashPath).forEach((file) => {
+        const filePath = path.join(trashPath, file);
+        fs.unlinkSync(filePath);
+    });
+    console.log('Trash emptied.');
   };
 
   renameDoc(filename, newFilename){
-      const filePath = path.join(this.colPath, filename + '.json');
-      const newFilePath = path.join(this.colPath, newFilename + '.json');
-      if (fs.existsSync(newFilePath)) {
-          console.log(`Document ${newFilename} already exists.`);
-          return;
-      }
-      fs.renameSync(filePath, newFilePath);
-      console.log(`Document ${filename} changed to ${newFilename}.`);
+    const filePath = path.join(this.colPath, filename + '.json');
+    const newFilePath = path.join(this.colPath, newFilename + '.json');
+    if (fs.existsSync(newFilePath)) {
+        console.log(`Document ${newFilename} already exists.`);
+        return;
+    }
+    fs.renameSync(filePath, newFilePath);
+    console.log(`Document ${filename} changed to ${newFilename}.`);
   };
 
   readDoc(filename){
-      const filePath = path.join(this.colPath, filename + '.json');
-      const data = fs.readFileSync(filePath, 'utf8');
-      console.log(`${filename}:\n${data}`);
-      return JSON.parse(data);
+    const filePath = path.join(this.colPath, filename + '.json');
+    const data = fs.readFileSync(filePath, 'utf8');
+    console.log(`${filename}:\n${data}`);
+    return JSON.parse(data);
   };
 
-  writeDoc(filename, data){
-      const filePath = path.join(this.colPath, filename + '.json');
-      fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-      console.log(`Document ${filename} written to.`);
+  updateDoc(filename, data){
+    const filePath = path.join(this.colPath, filename + '.json');
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    console.log(`Document ${filename} written to.`);
   };
 
-  copyCol(colName, colCopyName){
-    fs.cpSync(__dirname, colCopyName, { recursive: true });
-    console.log(`Collection ${colName} documents copied to ${colCopyName}.`);
+  copyCol(targetCollection) {
+    const targetColPath = path.join(__dirname, targetCollection);
+    if (!fs.existsSync(targetColPath)) {
+      fs.mkdirSync(targetColPath);
+    }
+    const fileList = fs.readdirSync(this.colPath);
+    fileList.forEach((file) => {
+      const filePath = path.join(this.colPath, file);
+      const targetPath = path.join(targetColPath, file);
+      fs.copyFileSync(filePath, targetPath);
+    });
+    console.log(`All files copied to collection '${targetCollection}'.`);
   };
 
+  copyDocToCol(docName, targetCollection){
+    const filePath = path.join(this.colPath, `${docName}.json`);
+    const targetColPath = path.join(__dirname, targetCollection);
+    if (!fs.existsSync(targetColPath)) {
+      fs.mkdirSync(targetColPath);
+    }
+    const targetPath = path.join(targetColPath, `${docName}.json`);
+    fs.copyFileSync(filePath, targetPath);
+    console.log(`Document '${docName}.json' copied to collection '${targetCollection}'.`);
+  };
+  
   deleteCol(){
     const deleteFolderRecursive = (directory) => {
         if (fs.existsSync(directory)) {
@@ -115,8 +135,8 @@ class collection{
   };
 
   listDocs(){
-      const fileList = fs.readdirSync(this.colPath);
-      console.log(fileList);
+    const fileList = fs.readdirSync(this.colPath);
+    console.log(fileList);
   };
 
   editVariable(filename, variable, value){
@@ -133,20 +153,20 @@ class collection{
   };
 
   addVariable(filename, variable, value){
-      const filePath = path.join(this.colPath, filename + '.json');
-      const data = fs.readFileSync(filePath, 'utf8');
-      const jsonData = JSON.parse(data);
-      jsonData[variable] = value;
-      fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
-      console.log(`New variable ${variable} with value ${value} added to file ${filename}.`);
+    const filePath = path.join(this.colPath, filename + '.json');
+    const data = fs.readFileSync(filePath, 'utf8');
+    const jsonData = JSON.parse(data);
+    jsonData[variable] = value;
+    fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
+    console.log(`New variable ${variable} with value ${value} added to file ${filename}.`);
   };
 
   returnVariable(docName, variable){
-      const doc = require(path.join(this.colPath, docName + '.json'));
-      console.log(`${doc[docName][variable]}`);
-      return doc[docName][variable];
+    const doc = require(path.join(this.colPath, `${docName}.json`));
+    console.log(`${doc[variable]}`);
+    return doc[variable];
   };
-
+  
   deleteVariable(filename, variable){
     const filePath = path.join(this.colPath, filename + '.json');
     const data = fs.readFileSync(filePath, 'utf8');
@@ -254,8 +274,8 @@ class collection{
           run();
           break;
       }
-    }
-  }
+    };
+  };
 
   interpreter = {
     run: (file) => {
@@ -272,13 +292,13 @@ class collection{
       };
       const joinArrayRange = (array, start, stop) => {
           return array.slice(start, stop).join('');
-      }
+      };
       const varTest = (str) => {
         return str.charAt(0) === '*';
-      }
+      };
       const returnVarName = (str) => {
         return str.slice(1);
-      }
+      };
       const getCodeAtLine = (filepath, line_number) => {
         const fs = require('fs');
         const lines = fs.readFileSync(filepath, 'utf8').split('\n');
@@ -288,7 +308,7 @@ class collection{
             console.log(`Error: Ln${line_number}, Command Not Found`);
             return '';
         }
-      }
+      };
       const countLinesOfCode = (filepath) => {
         const fs = require('fs');
         if (!filepath) {
@@ -297,7 +317,7 @@ class collection{
         }
         const lines = fs.readFileSync(filepath, 'utf8').split('\n');
         return lines.length;
-      }
+      };
       if(!file.substr(-4) === '.orc') {
           file = file + '.orc';
       }
@@ -375,7 +395,7 @@ class collection{
             break;
         }
       }
-    }
-  }
+    };
+  };
 }
 module.exports = { collection };
