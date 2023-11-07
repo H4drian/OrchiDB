@@ -125,11 +125,9 @@ class collection{
     };
     try {
         const colPath = path.join(__dirname, this.name);
-        setTimeout(() => {
-            deleteFolderRecursive(colPath);
-        }, 10000);
+        deleteFolderRecursive(colPath);
         console.log(`Collection ${this.name} deleted.`);
-    } catch (err) {
+    } catch (err) { 
         console.error(`Error while deleting collection ${this.name}: ${err}`);
     }
   };
@@ -274,7 +272,7 @@ class collection{
           run();
           break;
       }
-    };
+    }
   };
 
   interpreter = {
@@ -395,7 +393,7 @@ class collection{
             break;
         }
       }
-    };
+    }
   };
 }
 module.exports = { collection };

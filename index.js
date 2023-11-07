@@ -16,10 +16,14 @@ console.log('|-------------------------------------------------|');
 
 const collection = require('./OrchiDB/OrchiDB.js');
 const myCollection = new collection.collection('myCollection');
-myCollection.newDoc('john');
-myCollection.updateDoc('john', {
+myCollection.newDoc('john', {
   name: 'John',
   age: 20,
+  address: '100 Main St'
+});
+myCollection.updateDoc('john', {
+  name: 'John',
+  age: 23,
   address: '123 Main St'
 });
 myCollection.readDoc('john');
@@ -27,7 +31,7 @@ myCollection.returnDocPath('john');
 myCollection.deleteDoc('john');
 myCollection.restoreDoc('john');
 myCollection.renameDoc('john', 'jane');
-myCollection.writeDoc('jane', {
+myCollection.updateDoc('jane', {
   name: 'Jane',
   age: 21,
   address: '456 Main St'
@@ -37,4 +41,4 @@ myCollection.returnVariable('jane', 'country');
 myCollection.editVariable('jane', 'country', 'Canada');
 myCollection.returnVariable('jane', 'country');
 myCollection.deleteVariable('jane', 'country');
-myCollection.deleteCol();
+myCollection.deleteCol(); 
