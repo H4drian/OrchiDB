@@ -1,4 +1,4 @@
-# OrchiDB
+# OrchiDB ver.1
 #### OrchiDB is a lightweight, document-oriented database that works with backend JavaScript. OrchiDB makes small scale data management fast and simple, with tools such as the integrated database terminal and OrchidQL and modules such as db and init which allow for querying through JavaScript functions. 
 #### OrchidDB is built to be easy to work with and set up. To set up the database just download the OrchiDB folder, then import the modules you need to use the database.
 

@@ -138,7 +138,7 @@ class collection{
     console.log(fileList);
   };
 
-  editVariable(filename, variable, value){
+  updateVariable(filename, variable, value){
     const filePath = path.join(this.colPath, filename + '.json');
     if (fs.existsSync(filePath)) {
         const data = fs.readFileSync(filePath, 'utf8');
@@ -151,7 +151,7 @@ class collection{
     }
   };
 
-  addVariable(filename, variable, value){
+  newVariable(filename, variable, value){
     const filePath = path.join(this.colPath, filename + '.json');
     const data = fs.readFileSync(filePath, 'utf8');
     const jsonData = JSON.parse(data);
@@ -232,6 +232,12 @@ class collection{
           this.copyCol(copyColName, newColName);
           this.terminal.run();
           break;
+        case 'COPY_DOC_TO_COL':
+          const copyDocName = prompt('<<Enter Doc Name: \n>>');
+          const copy_ColName = prompt('<<Enter Collection Name: \n>>');
+          this.copyDocToCol(copyDocName, copy_ColName);
+          this.terminal.run();
+          break;
         case 'DEL_COL':
           this.deleteCol();
           this.terminal.run();
@@ -240,18 +246,18 @@ class collection{
           console.clear();
           this.terminal.run();
           break;
-        case 'EDIT_DOC_VAR':
-          const editDocName = prompt("<<Enter Doc Name: \n>>");
+        case 'UPDATE_DOC_VAR':
+          const updateDocName = prompt("<<Enter Doc Name: \n>>");
           const variable = prompt("<<Enter Variable Name: \n>>");
           const value = prompt("<<Enter Value: \n>>");
-          db.editVariable(editDocName, variable, value);
+          db.updateVariable(updateDocName, variable, value);
           this.terminal.run();
           break;
-        case 'ADD_DOC_VAR':
-          const addDocName = prompt('<<Enter Doc Name: \n>>');
-          const addVarName = prompt('<<Enter Variable Name: \n>>');
+        case 'NEW_DOC_VAR':
+          const new_DocName = prompt('<<Enter Doc Name: \n>>');
+          const newVarName = prompt('<<Enter Variable Name: \n>>');
           const varValue = prompt('<<Enter Variable Value: \n>>');
-          db.addDocVar(addDocName, addVarName, varValue);
+          db.addDocVar(new_DocName, newVarName, varValue);
           this.terminal.run();
           break;
         case 'DEL_DOC_VAR':
@@ -364,12 +370,12 @@ class collection{
           case 'DEL_COL':
             this.deleteCol();
             break;
-          case 'EDIT_DOC_VAR':
-            this.editVariable(splitLine[1], splitLine[2], splitLine[3]);
+          case 'UPDATE_DOC_VAR':
+            this.updateVariable(splitLine[1], splitLine[2], splitLine[3]);
             break;
-          case 'ADD_DOC_VAR':
-            this.addVariable(splitLine[1], splitLine[2], splitLine[3]);
-            break;
+          case 'NEW_DOC_VAR':
+            this.newVariable(splitLine[1], splitLine[2], splitLine[3]);
+            break; 
           case 'DEL_DOC_VAR':
             this.deleteVariable(splitLine[1], splitLine[2]);
             break;
