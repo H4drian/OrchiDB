@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const prompt = require('prompt-sync')();
 
 class collection{
   constructor(name){
@@ -183,93 +184,95 @@ class collection{
           break;
         case 'NEW_DOC':
           const newDocName = prompt('<<Enter Doc Name: \n>>');
-          this.newDoc(newDocName);
-          run();
+          const newContentStr = prompt('<<Enter Content: \n>>');
+          const newContent = JSON.parse(newContentStr);
+          this.newDoc(newDocName, newContent);
+          this.terminal.run();
           break;
         case 'READ_DOC':
           const readDocName = prompt('<<Enter Doc Name: \n>>');
           this.readDoc(readDocName);
-          run();
+          this.terminal.run();
           break;
-        case 'WRITE_DOC':
-          const writeDocName = prompt('<<Enter Doc Name: \n>>');
-          const contentStr = prompt('<<Enter Content: \n>>');
-          const content = JSON.parse(contentStr);
-          this.writeDoc(writeDocName, content);
-          run();
+        case 'UPDATE_DOC':
+          const updatedDocName = prompt('<<Enter Doc Name: \n>>');
+          const updatedContentStr = prompt('<<Enter Content: \n>>');
+          const updatedContent = JSON.parse(updatedContentStr);
+          this.updateDoc(updatedDocName, updatedContent);
+          this.terminal.run();
           break;
         case 'DEL_DOC':
           const deleteDocName = prompt('<<Enter Doc Name: \n>>');
           this.deleteDoc(deleteDocName);
-          run();
+          this.terminal.run();
           break;
         case 'RESTORE_DOC':
           const restoreDocName = prompt('<<Enter Doc Name: \n>>');
           this.restoreDoc(restoreDocName);
-          run();
+          this.terminal.run();
           break;
         case 'EMPTY_TRASH':
           this.emptyTrash();
-          run();
+          this.terminal.run();
           break;
         case 'RENAME_DOC':
           const renameDocName = prompt('<<Enter Doc Name: \n>>');
           const newName = prompt('<<Enter New Doc Name: \n>>');
           this.renameDoc(renameDocName, newName);
-          run();
+          this.terminal.run();
           break;
         case 'RETURN_PATH':
           const returnPathName = prompt('<<Enter Doc Name: \n>>');
           this.returnPath(returnPathName);
-          run();
+          this.terminal.run();
           break;
         case 'COPY_COL':
           const copyColName = prompt('<<Enter Collection Name: \n>>');
           const newColName = prompt('<<Enter New Collection Name: \n>>');
           this.copyCol(copyColName, newColName);
-          run();
+          this.terminal.run();
           break;
         case 'DEL_COL':
           this.deleteCol();
-          run();
+          this.terminal.run();
           break;
         case 'CLEAR':
           console.clear();
-          run();
+          this.terminal.run();
           break;
         case 'EDIT_DOC_VAR':
           const editDocName = prompt("<<Enter Doc Name: \n>>");
           const variable = prompt("<<Enter Variable Name: \n>>");
           const value = prompt("<<Enter Value: \n>>");
           db.editVariable(editDocName, variable, value);
-          run();
+          this.terminal.run();
           break;
         case 'ADD_DOC_VAR':
           const addDocName = prompt('<<Enter Doc Name: \n>>');
           const addVarName = prompt('<<Enter Variable Name: \n>>');
           const varValue = prompt('<<Enter Variable Value: \n>>');
           db.addDocVar(addDocName, addVarName, varValue);
-          run();
+          this.terminal.run();
           break;
         case 'DEL_DOC_VAR':
           const delDocName = prompt("<<Enter Doc Name: \n>>");
           const delVarName = prompt("<<Enter Variable Name: \n>>");
           db.delDocVar(delDocName, delVarName);
-          run();
+          this.terminal.run();
           break;
         case 'LIST_DOCS':
           db.listDocs();
-          run();
+          this.terminal.run();
           break;
         case 'READ_DOC_VAR':
           const readDocname = prompt('<<Enter Doc Name: \n>>');
           const readVarName = prompt('<<Enter Variable Name: \n>>');
           db.readVariable(readDocname, readVarName);
-          run();
+          this.terminal.run();
           break;
         default:
           console.log('<<Invalid Command');
-          run();
+          this.terminal.run();
           break;
       }
     }
@@ -330,15 +333,15 @@ class collection{
         }
         switch(command){
           case 'NEW_DOC':
-            this.newDoc(splitLine[1]);
+            const content = JSON.parse(joinArrayRange(splitLine, 2, splitLine.length).replace(/'/g, '"').replace(/([a-zA-Z_]+):/g, '"$1":'));
+            this.newDoc(splitLine[1], content);
             break;
           case 'READ_DOC':
             this.readDoc(splitLine[1]);
             break;
-          case 'WRITE_DOC':
-            const content = JSON.parse(joinArrayRange(splitLine, 2, splitLine.length).replace(/'/g, '"').replace(/([a-zA-Z_]+):/g, '"$1":'));
-            console.log(content);
-            this.writeDoc(splitLine[1], content);
+          case 'UPDATE_DOC':
+            const updatedContent = JSON.parse(joinArrayRange(splitLine, 2, splitLine.length).replace(/'/g, '"').replace(/([a-zA-Z_]+):/g, '"$1":'));
+            this.updateDoc(splitLine[1], updatedContent);
             break;
           case 'DEL_DOC':
             this.deleteDoc(splitLine[1]);
@@ -355,11 +358,11 @@ class collection{
           case 'RETURN_DOC_PATH':
             this.returnDocPath(splitLine[1]);
             break;
-          case 'COPY_COL':
-            this.copyDb(splitLine[1], splitLine[2]);
+          case 'COPY_DOC_TO_COL':
+            this.copyDocToCol(splitLine[1], splitLine[2]);
             break;
           case 'DEL_COL':
-            this.deleteDb(splitLine[1]);
+            this.deleteCol();
             break;
           case 'EDIT_DOC_VAR':
             this.editVariable(splitLine[1], splitLine[2], splitLine[3]);

@@ -13,32 +13,5 @@ console.log('| read the markdown file inside this replit.      |');
 console.log('| OrchiDB is still in early development so expect |');
 console.log('| some errors.                                    |');
 console.log('|-------------------------------------------------|');
-
-const collection = require('./OrchiDB/OrchiDB.js');
-const myCollection = new collection.collection('myCollection');
-myCollection.newDoc('john', {
-  name: 'John',
-  age: 20,
-  address: '100 Main St'
-});
-myCollection.updateDoc('john', {
-  name: 'John',
-  age: 23,
-  address: '123 Main St'
-});
-myCollection.readDoc('john');
-myCollection.returnDocPath('john');
-myCollection.deleteDoc('john');
-myCollection.restoreDoc('john');
-myCollection.renameDoc('john', 'jane');
-myCollection.updateDoc('jane', {
-  name: 'Jane',
-  age: 21,
-  address: '456 Main St'
-});
-myCollection.addVariable('jane', 'country', 'USA');
-myCollection.returnVariable('jane', 'country');
-myCollection.editVariable('jane', 'country', 'Canada');
-myCollection.returnVariable('jane', 'country');
-myCollection.deleteVariable('jane', 'country');
-myCollection.deleteCol(); 
+console.log('|    Developed by H4    |    DB Version: 2        |');
+console.log('|-------------------------------------------------|');
