@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const readline = require('readline');
 const prompt = require('prompt-sync')();
 
-class collection{
+class Collection{
   constructor(name){
     this.name = name;
     this.colPath = path.join(__dirname, this.name);
@@ -82,23 +83,44 @@ class collection{
   updateDoc(filename, data){
     const filePath = path.join(this.colPath, filename + '.json');
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-    console.log(`Document ${filename} written to.`);
+    console.log(`Document ${filename} updated.`);
   };
 
   copyCol(targetCollection) {
+    function copyDir(source, target){
+      if (fs.lstatSync(source).isDirectory()) {
+        fs.readdirSync(source).forEach((file) => {
+          const curSource = path.join(source, file);
+          const curTarget = path.join(target, file);
+          this.copyDir(curSource, curTarget);
+        });
+      } else {
+        fs.copyFileSync(source, target);
+      }
+    }
     const targetColPath = path.join(__dirname, targetCollection);
     if (!fs.existsSync(targetColPath)) {
       fs.mkdirSync(targetColPath);
     }
+    const targetTrashPath = path.join(targetColPath, 'TRASH');
+    if (!fs.existsSync(targetTrashPath)) {
+      fs.mkdirSync(targetTrashPath);
+    } 
     const fileList = fs.readdirSync(this.colPath);
     fileList.forEach((file) => {
       const filePath = path.join(this.colPath, file);
       const targetPath = path.join(targetColPath, file);
-      fs.copyFileSync(filePath, targetPath);
+      const isDirectory = fs.lstatSync(filePath).isDirectory();
+      if (isDirectory) {
+        fs.mkdirSync(targetPath, { recursive: true });
+        copyDir(filePath, targetPath);
+      } else {
+        fs.copyFileSync(filePath, targetPath);
+      }
     });
-    console.log(`All files copied to collection '${targetCollection}'.`);
-  };
-
+    console.log(`All files copied to collection '${targetCollection}' and overwritten if exists.`);
+  }
+  
   copyDocToCol(docName, targetCollection){
     const filePath = path.join(this.colPath, `${docName}.json`);
     const targetColPath = path.join(__dirname, targetCollection);
@@ -157,7 +179,7 @@ class collection{
     const jsonData = JSON.parse(data);
     jsonData[variable] = value;
     fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
-    console.log(`New variable ${variable} with value ${value} added to file ${filename}.`);
+    console.log(`New variable ${variable} with value ${value} added to file '${filename}.json'.`);
   };
 
   returnVariable(docName, variable){
@@ -172,7 +194,7 @@ class collection{
     const jsonData = JSON.parse(data);
     delete jsonData[variable];
     fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
-    console.log(`Variable ${variable} removed from file ${filename}.`);
+    console.log(`Variable ${variable} removed from file '${filename}.json'.`);
   };
 
   terminal = {
@@ -223,13 +245,12 @@ class collection{
           break;
         case 'RETURN_PATH':
           const returnPathName = prompt('<<Enter Doc Name: \n>>');
-          this.returnPath(returnPathName);
+          this.returnDocPath(returnPathName);
           this.terminal.run();
           break;
         case 'COPY_COL':
-          const copyColName = prompt('<<Enter Collection Name: \n>>');
-          const newColName = prompt('<<Enter New Collection Name: \n>>');
-          this.copyCol(copyColName, newColName);
+          const copyColName = prompt('<<Enter New Collection Name: \n>>');
+          this.copyCol(copyColName);
           this.terminal.run();
           break;
         case 'COPY_DOC_TO_COL':
@@ -250,30 +271,30 @@ class collection{
           const updateDocName = prompt("<<Enter Doc Name: \n>>");
           const variable = prompt("<<Enter Variable Name: \n>>");
           const value = prompt("<<Enter Value: \n>>");
-          db.updateVariable(updateDocName, variable, value);
+          this.updateVariable(updateDocName, variable, value);
           this.terminal.run();
           break;
         case 'NEW_DOC_VAR':
           const new_DocName = prompt('<<Enter Doc Name: \n>>');
           const newVarName = prompt('<<Enter Variable Name: \n>>');
           const varValue = prompt('<<Enter Variable Value: \n>>');
-          db.addDocVar(new_DocName, newVarName, varValue);
+          this.newVariable(new_DocName, newVarName, varValue);
           this.terminal.run();
           break;
         case 'DEL_DOC_VAR':
           const delDocName = prompt("<<Enter Doc Name: \n>>");
           const delVarName = prompt("<<Enter Variable Name: \n>>");
-          db.delDocVar(delDocName, delVarName);
+          this.deleteVariable(delDocName, delVarName);
           this.terminal.run();
           break;
         case 'LIST_DOCS':
-          db.listDocs();
+          this.listDocs();
           this.terminal.run();
           break;
-        case 'READ_DOC_VAR':
+        case 'RETURN_DOC_VAR':
           const readDocname = prompt('<<Enter Doc Name: \n>>');
           const readVarName = prompt('<<Enter Variable Name: \n>>');
-          db.readVariable(readDocname, readVarName);
+          this.returnVariable(readDocname, readVarName);
           this.terminal.run();
           break;
         default:
@@ -283,126 +304,6 @@ class collection{
       }
     }
   };
-
-  interpreter = {
-    run: (file) => {
-      const heap = {};
-      const splitLine = (str) => {
-        let startIndex = str.indexOf('{');
-        let endIndex = str.lastIndexOf('}');
-        let object = '';
-        if (startIndex !== -1 && endIndex !== -1) {
-          object = str.substring(startIndex, endIndex + 1);
-          str = str.slice(0, startIndex) + '#' + str.slice(endIndex + 1);
-        }
-        return str.trim().split(/#\s*|\s+/).map(subStr => subStr.replace('#', object));
-      };
-      const joinArrayRange = (array, start, stop) => {
-          return array.slice(start, stop).join('');
-      };
-      const varTest = (str) => {
-        return str.charAt(0) === '*';
-      };
-      const returnVarName = (str) => {
-        return str.slice(1);
-      };
-      const getCodeAtLine = (filepath, line_number) => {
-        const fs = require('fs');
-        const lines = fs.readFileSync(filepath, 'utf8').split('\n');
-        if (line_number >= 1 && line_number <= lines.length) {
-            return lines[line_number - 1].trim();
-        } else {
-            console.log(`Error: Ln${line_number}, Command Not Found`);
-            return '';
-        }
-      };
-      const countLinesOfCode = (filepath) => {
-        const fs = require('fs');
-        if (!filepath) {
-            console.log('Error: filepath argument is missing');
-            return 0;
-        }
-        const lines = fs.readFileSync(filepath, 'utf8').split('\n');
-        return lines.length;
-      };
-      if(!file.substr(-4) === '.orc') {
-          file = file + '.orc';
-      }
-      for(let i = 1; i < countLinesOfCode(file); i++){
-        const line = getCodeAtLine(file, i);
-        const splitLine = splitLine(line);
-        const command = splitLine[0];
-        for(let j = 0; j < splitLine.length; j++){
-          if(varTest(splitLine[j])){
-            splitLine[j] = heap[returnVarName(splitLine[j])];
-          }
-        }
-        switch(command){
-          case 'NEW_DOC':
-            const content = JSON.parse(joinArrayRange(splitLine, 2, splitLine.length).replace(/'/g, '"').replace(/([a-zA-Z_]+):/g, '"$1":'));
-            this.newDoc(splitLine[1], content);
-            break;
-          case 'READ_DOC':
-            this.readDoc(splitLine[1]);
-            break;
-          case 'UPDATE_DOC':
-            const updatedContent = JSON.parse(joinArrayRange(splitLine, 2, splitLine.length).replace(/'/g, '"').replace(/([a-zA-Z_]+):/g, '"$1":'));
-            this.updateDoc(splitLine[1], updatedContent);
-            break;
-          case 'DEL_DOC':
-            this.deleteDoc(splitLine[1]);
-            break;
-          case 'RESTORE_DOC':
-            this.restoreDoc(splitLine[1]);
-            break;
-          case 'EMPTY_TRASH':
-            this.emptyTrash();
-            break;
-          case 'RENAME_DOC':
-            this.renameDoc(splitLine[1], splitLine[2]);
-            break;
-          case 'RETURN_DOC_PATH':
-            this.returnDocPath(splitLine[1]);
-            break;
-          case 'COPY_DOC_TO_COL':
-            this.copyDocToCol(splitLine[1], splitLine[2]);
-            break;
-          case 'DEL_COL':
-            this.deleteCol();
-            break;
-          case 'UPDATE_DOC_VAR':
-            this.updateVariable(splitLine[1], splitLine[2], splitLine[3]);
-            break;
-          case 'NEW_DOC_VAR':
-            this.newVariable(splitLine[1], splitLine[2], splitLine[3]);
-            break; 
-          case 'DEL_DOC_VAR':
-            this.deleteVariable(splitLine[1], splitLine[2]);
-            break;
-          case 'LIST_DOCS':
-            this.listDocs();
-            break;
-          case 'READ_DOC_VAR':
-            this.readVariable(splitLine[1], splitLine[2]);
-            break;
-          case 'VAR':
-            const varName = splitLine[1];
-            if(!splitLine[2] == ':='){
-              console.log(`Error: Ln ${i}, Syntax Error - Expected ':=', Got ${splitLine[2]}`);
-            }
-            const varValue = splitLine[3];
-            heap[varName] = varValue;
-            break;
-          case '#':
-            break;
-          case '':
-            break;
-          default:
-            console.log('Error: Ln' + i + ', Command Not Found');
-            break;
-        }
-      }
-    }
-  };
 }
-module.exports = { collection };
+
+module.exports = { Collection };

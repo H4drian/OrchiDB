@@ -4,12 +4,12 @@ OrchiDB is a lightweight, JSON Document-Oriented database managment system with 
 # How to Setup a Database
 To set up a database, first create the folder where the collections will be stored, then download the OrchiDB.js module and move it to the database folder. Lastly import the module to the program which will be taking the queries.
 ~~~
-const db = require('./OrchiDB/OrchiDB.js');
+const db = require('./OrchiDB/orchidb.js');
 ~~~
 # Using JavaScript to Query to the Database
 To use JavaScript with OrchiDB, create a new collection using the collection class,
 ~~~
-const myCollection = new db.collection('myCollection')
+const myCollection = new db.Collection('myCollection')
 ~~~
 Now you can use the collection object's functions to query the collection.
 
@@ -65,7 +65,7 @@ myCollection.updateDoc('jane',{
 ### copyCol(targetCollection)
 The copyCol function copies every file in the collection to another target collection.
 ~~~
-const myCollection2 = new db.collection('myCollection2');
+const myCollection2 = new db.Collection('myCollection2');
 myCollection.copyCol('myCollection2'); // copies all files from myCollection to myCollection2
 ~~~
 ### copyDocToCol(docName, targetCollection)
@@ -106,11 +106,11 @@ myCollection.deleteVariable('jane', 'gender');
 ## Nested Collections
 Collections can have collections inside of them. To create a collection inside of a collection first create a primary collection
 ~~~
-const primaryCollection = new db.collection('primaryCollection');
+const primaryCollection = new db.Collection('primaryCollection');
 ~~~
 Then create another collection within the directory of the primary one
 ~~~
-const secondaryCollection = new db.collection('primaryCollection/secondaryCollection');
+const secondaryCollection = new db.Collection('primaryCollection/secondaryCollection');
 ~~~
 Some primaryCollection functions can work on the secondaryCollection.
 - listDocs will list the secondaryCollection as a folder inside of the primaryCollection
@@ -122,16 +122,19 @@ secondaryCollections cannot preform operations onto its primaryCollection, i.e. 
 # Using the OrchiDB Terminal
 To use the OrchiDB terminal, first set up a collection.
 ~~~
-const db = require('./OrchiDB/OrchiDB.js');
-const myCollection = new db.collection('myCollection');
+const db = require('./OrchiDB/orchidb.js');
+const myCollection = new db.Collection('myCollection');
 ~~~
 Then use the terminal.run() function
 ~~~
 myCollection.terminal.run();
 ~~~
 Now when you run the program the terminal will run in the console.
+>> are input lines, you will write your input here.
+<< are output lines, the terminal will write its output here
+if there is no prefix to the text then it is an output writen by the function the command runs
 ~~~
->>>
+>>
 ~~~
 From here just enter any of the terminal commands in the input line.
 
@@ -157,3 +160,179 @@ From here just enter any of the terminal commands in the input line.
 |   READ_DOC_VAR    |
 |    DEL_DOC_VAR    |
 
+# Example Programs for JavaScript, OrchidQL, and the Terminal
+## JavaScript
+~~~
+/// index.js
+
+const db = require('./OrchiDB/orchidb.js');
+const myCollection = new db.Collection('myCollection');
+
+myCollection.newDoc('john', {
+  name: 'John',
+  age: 22,
+  address: '123 Main St'
+});
+myCollection.returnDocPath('john');
+myCollection.deleteDoc('john');
+myCollection.emptyTrash();
+myCollection.newDoc('john', {
+  name: 'John',
+  age: 22,
+  address: '123 Main St'
+});
+myCollection.renameDoc('john', 'jane');
+myCollection.updateDoc('jane', {
+  name: 'Jane',
+  age: 21,
+  address: '456 Main St'
+});
+myCollection.readDoc('jane');
+const myCollection2 = new db.Collection('myCollection2');
+myCollection.copyCol('myCollection2');
+myCollection.newDoc('blank', {});
+myCollection.copyDocToCol('blank', 'myCollection2');
+myCollection2.readDoc('blank');
+myCollection.newVariable('jane', 'country', 'USA');
+myCollection.returnVariable('jane', 'country', 'USA');
+myCollection.updateVariable('jane', 'country', 'Canada');
+myCollection.deleteVariable('jane', 'country');
+myCollection.deleteCol();
+myCollection2.deleteCol();
+~~~
+## OrchiDB Terminal
+~~~
+// index.js 
+
+const db = require('./OrchiDB/orchidb.js');
+async function runMyCollectionTerminal(){
+  // function runs terminal for myCollection, halting all other terminals to avoid errors.
+  const myCollection = new db.Collection('myCollection');
+  myCollection.terminal.run();
+};
+runMyCollectionTerminal(); 
+console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~');
+console.log('Running myCollection2 Terminal');
+const myCollection2 = new db.Collection('myCollection2');
+myCollection2.terminal.run();
+~~~
+```
+>>NEW_DOC
+<<Enter Doc Name:
+>>John
+<<Enter Content: 
+>>{"name": "John", "age": 22}
+Document john created.
+>>CLEAR
+>>READ_DOC
+<<Enter Doc Name:
+>>john
+john:
+{
+  "Name": "John",
+  "age": 22
+}
+>>CLEAR
+>>UPDATE_DOC
+<<Enter Doc Name:
+>>john
+<<Enter Content:
+<<{"Name": "Johnathan", "age": 23}
+Document john updated.
+>>CLEAR
+>>DEL_DOC
+<<Enter Doc Name:
+>>john
+Document john moved to TRASH folder
+>>CLEAR
+>>RESTORE_DOC
+<<Enter Doc Name:
+>>john
+Document john restored..
+>>CLEAR
+>>EMTPY_TRASH
+Trash emptied.
+>>CLEAR
+>>UPDATE_DOC
+<<Enter Doc Name:
+>>john
+<<Enter Content:
+>>{"name": "Jane", "age": 21}
+Document john updated.
+>>CLEAR
+>>RENAME_DOC
+<<Enter Doc Name:
+>>john
+<<Enter New Doc Name:
+>>jane
+Document john changed to jane.
+>>CLEAR
+>>LIST_DOCS
+[ 'TRASH', 'jane.json' ]
+>>CLEAR
+>>RETURN_PATH
+<<Enter Doc Name:
+>>jane
+Path to jane: /home/runner/OrchiDB/OrchiDB/myCollection/jane.json
+>>CLEAR
+>>COPY_COL
+<<Enter New Collection Name:
+>>myCollection2
+All files copied to collection 'myCollection2' and overwritten if exists.
+>>CLEAR
+>>NEW_DOC
+<<Enter Doc Name:
+>>blank
+<<Enter Content:
+>>{}
+Document blank created.
+>>CLEAR
+>>COPY_DOC_TO_COL
+<<Enter Doc Name:
+>>blank
+<<Enter Collection Name:
+>>myCollection2
+Document 'blank.json' copied to collection 'myCollection2'.
+>>CLEAR
+>>NEW_DOC_VAR
+<<Enter Doc Name:
+>>jane
+<<Enter Variable Name:
+>>country
+<<Enter Variable Value:
+>>USA
+New variable country with value USA added to file 'jane.json'
+>>CLEAR
+>>UPDATE_DOC_VAR
+<<Enter Doc Name:
+>>jane
+<<Enter Variable Name
+>>country
+<<Enter Value:
+>>Canada
+Variable 'country' set to Canada in file 'jane.json'
+>>CLEAR
+>>RETURN_DOC_VAR
+<<Enter Doc Name:
+>>jane
+<<Enter Variable Name:
+>>country
+Canada
+>>CLEAR
+>>DEL_DOC_VAR
+<<Enter Doc Name:
+>>jane
+<<Enter Variable Name:
+>>country
+Variable country removed from file 'jane.json'.
+>>DEL_COL
+Collection myCollection deleted.
+>>EXIT
+<<Exiting Terminal
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Running myCollection2 Terminal
+>>DEL_COL
+Collection myCollection2 delete.
+>>EXIT
+<<Exiting Terminal
+```
