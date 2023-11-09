@@ -15,3 +15,7 @@ console.log('| some errors.                                    |');
 console.log('|-------------------------------------------------|');
 console.log('|    Developed by H4    |    DB Version: 2        |');
 console.log('|-------------------------------------------------|');
+
+const db = require('./OrchiDB/orchidb.js');
+const myCollection = new db.Collection('myCollection');
+myCollection.terminal.run();

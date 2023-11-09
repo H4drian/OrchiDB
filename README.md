@@ -129,12 +129,10 @@ Then use the terminal.run() function
 ~~~
 myCollection.terminal.run();
 ~~~
-Now when you run the program the terminal will run in the console.
->> are input lines, you will write your input here.
-<< are output lines, the terminal will write its output here
-if there is no prefix to the text then it is an output writen by the function the command runs
+Then in the console the terminal input line will prompt.
 ~~~
->>
+|--------------------myCollection Terminal--------------------|
+OrchiDB@myCollection:~$ 
 ~~~
 From here just enter any of the terminal commands in the input line.
 
@@ -217,122 +215,89 @@ const myCollection2 = new db.Collection('myCollection2');
 myCollection2.terminal.run();
 ~~~
 ```
->>NEW_DOC
-<<Enter Doc Name:
->>John
-<<Enter Content: 
->>{"name": "John", "age": 22}
-Document john created.
->>CLEAR
->>READ_DOC
-<<Enter Doc Name:
->>john
+|--------------------myCollection Terminal--------------------|
+OrchiDB@myCollection:~$ NEW_DOC
+Enter Doc Name:
+OrchiDB@myCollection:~$ john
+Enter Content: 
+OrchiDB@myCollection:~$ {"name": "John", "age": 22}
+Document John created.
+OrchiDB@myCollection:~$ CLEAR
+
+OrchiDB@myCollection:~$ READ_DOC
+Enter Doc Name:
+OrchiDB@myCollection:~$ john
 john:
 {
-  "Name": "John",
+  "name": "John",
   "age": 22
 }
->>CLEAR
->>UPDATE_DOC
-<<Enter Doc Name:
->>john
-<<Enter Content:
-<<{"Name": "Johnathan", "age": 23}
+OrchiDB@myCollection:~$ CLEAR
+
+OrchiDB@myCollection:~$ UPDATE_DOC
+Enter Doc Name:
+OrchiDB@myCollection:~$ john
+Enter Content:
+OrchiDB@myCollection:~$ {"name": "Johnathan", "age": 23}
 Document john updated.
->>CLEAR
->>DEL_DOC
-<<Enter Doc Name:
->>john
-Document john moved to TRASH folder
->>CLEAR
->>RESTORE_DOC
-<<Enter Doc Name:
->>john
-Document john restored..
->>CLEAR
->>EMTPY_TRASH
-Trash emptied.
->>CLEAR
->>UPDATE_DOC
-<<Enter Doc Name:
->>john
-<<Enter Content:
->>{"name": "Jane", "age": 21}
-Document john updated.
->>CLEAR
->>RENAME_DOC
-<<Enter Doc Name:
->>john
-<<Enter New Doc Name:
->>jane
-Document john changed to jane.
->>CLEAR
->>LIST_DOCS
-[ 'TRASH', 'jane.json' ]
->>CLEAR
->>RETURN_PATH
-<<Enter Doc Name:
->>jane
-Path to jane: /home/runner/OrchiDB/OrchiDB/myCollection/jane.json
->>CLEAR
->>COPY_COL
-<<Enter New Collection Name:
->>myCollection2
-All files copied to collection 'myCollection2' and overwritten if exists.
->>CLEAR
->>NEW_DOC
-<<Enter Doc Name:
->>blank
-<<Enter Content:
->>{}
-Document blank created.
->>CLEAR
->>COPY_DOC_TO_COL
-<<Enter Doc Name:
->>blank
-<<Enter Collection Name:
->>myCollection2
-Document 'blank.json' copied to collection 'myCollection2'.
->>CLEAR
->>NEW_DOC_VAR
-<<Enter Doc Name:
->>jane
-<<Enter Variable Name:
->>country
-<<Enter Variable Value:
->>USA
-New variable country with value USA added to file 'jane.json'
->>CLEAR
->>UPDATE_DOC_VAR
-<<Enter Doc Name:
->>jane
-<<Enter Variable Name
->>country
-<<Enter Value:
->>Canada
-Variable 'country' set to Canada in file 'jane.json'
->>CLEAR
->>RETURN_DOC_VAR
-<<Enter Doc Name:
->>jane
-<<Enter Variable Name:
->>country
-Canada
->>CLEAR
->>DEL_DOC_VAR
-<<Enter Doc Name:
->>jane
-<<Enter Variable Name:
->>country
-Variable country removed from file 'jane.json'.
->>DEL_COL
-Collection myCollection deleted.
->>EXIT
-<<Exiting Terminal
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-Running myCollection2 Terminal
->>DEL_COL
-Collection myCollection2 delete.
->>EXIT
-<<Exiting Terminal
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ DEL_DOC
+Enter Doc Name: 
+OrchiDB@myCollection:~$ john
+Document john moved to TRASH folder.
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ RESTORE_DOC
+OrchiDB@myCollection:~$ john
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ EMTPY_TRASH
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ UPDATE_DOC
+OrchiDB@myCollection:~$ john
+OrchiDB@myCollection:~$ {"name": "Jane", "age": 21}
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ RENAME_DOC
+OrchiDB@myCollection:~$ john
+OrchiDB@myCollection:~$ jane
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ LIST_DOCS
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ RETURN_PATH
+OrchiDB@myCollection:~$ jane
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ COPY_COL
+OrchiDB@myCollection:~$ myCollection2
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ NEW_DOC
+OrchiDB@myCollection:~$ blank
+OrchiDB@myCollection:~$ {}
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ COPY_DOC_TO_COL
+OrchiDB@myCollection:~$ blank
+OrchiDB@myCollection:~$ myCollection2
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ NEW_DOC_VAR
+OrchiDB@myCollection:~$ jane
+OrchiDB@myCollection:~$ country
+OrchiDB@myCollection:~$ USA
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ UPDATE_DOC_VAR
+OrchiDB@myCollection:~$ jane
+OrchiDB@myCollection:~$ country
+OrchiDB@myCollection:~$ Canada
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ RETURN_DOC_VAR
+OrchiDB@myCollection:~$ jane
+OrchiDB@myCollection:~$ country
+OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$ DEL_DOC_VAR
+OrchiDB@myCollection:~$ jane
+OrchiDB@myCollection:~$ country
+OrchiDB@myCollection:~$ DEL_COL
+OrchiDB@myCollection:~$ EXIT
+|--------------------------------------------------------------|
+
+|--------------------myCollection2 Terminal--------------------|
+OrchiDB@myCollection:~$ DEL_COL
+OrchiDB@myCollection:~$ EXIT
+|--------------------------------------------------------------|
 ```
