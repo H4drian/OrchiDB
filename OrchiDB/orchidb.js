@@ -198,12 +198,12 @@ class Collection{
   };
 
   terminal = {
+    promptMessage = `${db}@${col}:~$ `,
     run: () => {
       console.log(`\n|--------------------${this.name} Terminal--------------------|`);
       while (true) {
         const db = path.basename(__dirname);
         const col = this.name;
-        const promptMessage = `${db}@${col}:~$ `;
         let command = prompt(promptMessage);
         switch (command) {
           case 'EXIT':
