@@ -216,6 +216,47 @@ myCollection2.terminal.run();
 ~~~
 ```
 |--------------------myCollection Terminal--------------------|
+OrchiDB@myCollection:~$ HELP
+|----------------------------COMMANDS-------------------------|
+EXIT: Exit the terminal.
+
+NEW_DOC: Create a new document in the collection with specified name and content.
+
+READ_DOC: Read the content of a document with specified name.
+
+UPDATE_DOC: Update the content of a document with specified name.
+
+DEL_DOC: Delete a document with specified name and move it to the TRASH folder.
+
+RESTORE_DOC: Restore a document from the TRASH folder to its original location.
+
+EMPTY_TRASH: Empty the TRASH folder and permanently delete all its contents.
+
+RENAME_DOC: Rename a document by providing its current name and the new name.
+
+RETURN_PATH: Return the file path of a document with specified name.
+
+COPY_COL: Create a copy of the entire collection with a new name.
+
+COPY_DOC_TO_COL: Copy a document from the current collection to another collection.
+
+DEL_COL: Delete the entire collection, including all its documents and the TRASH folder.
+
+CLEAR: Clear the console screen.
+
+UPDATE_DOC_VAR: Update the value of a variable in a document.
+
+NEW_DOC_VAR: Add a new variable with a value to a document.
+
+DEL_DOC_VAR: Delete a variable from a document.
+
+LIST_DOCS: List all the documents in the collection.
+
+RETURN_DOC_VAR: Return the value of a variable in a document.
+
+HELP: Display information about the available commands.
+|--------------------------------------------------------------------------------------|
+
 OrchiDB@myCollection:~$ NEW_DOC
 Enter Doc Name:
 OrchiDB@myCollection:~$ john
@@ -246,58 +287,111 @@ Enter Doc Name:
 OrchiDB@myCollection:~$ john
 Document john moved to TRASH folder.
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ RESTORE_DOC
+Enter Doc Name: 
 OrchiDB@myCollection:~$ john
+Document john restored.
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ EMTPY_TRASH
+Trash emptied.
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ UPDATE_DOC
+Enter Doc Name: 
 OrchiDB@myCollection:~$ john
+Enter Content:
 OrchiDB@myCollection:~$ {"name": "Jane", "age": 21}
+Document john updated.
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ RENAME_DOC
+Enter Doc Name:
 OrchiDB@myCollection:~$ john
+Enter New Doc Name:
 OrchiDB@myCollection:~$ jane
+Document john changed to jane.
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ LIST_DOCS
+[ 'TRASH', 'jane.json']
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ RETURN_PATH
+Enter Doc Name: 
 OrchiDB@myCollection:~$ jane
+Path to jane: /home/runner/OrchiDB/OrchiDB/myCollection/jane.json
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ COPY_COL
+Enter Target Collection: 
 OrchiDB@myCollection:~$ myCollection2
+All files copied to collection 'myCollection2' and overwritten if exists.
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ NEW_DOC
+Enter Doc Name:
 OrchiDB@myCollection:~$ blank
+Enter Content: 
 OrchiDB@myCollection:~$ {}
+Document blank created.
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ COPY_DOC_TO_COL
+Enter Doc Name:
 OrchiDB@myCollection:~$ blank
+Enter Target Collection:
 OrchiDB@myCollection:~$ myCollection2
+Document 'blank.json' copied to collection 'myCollection2'.
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ NEW_DOC_VAR
+Enter Doc Name:
 OrchiDB@myCollection:~$ jane
+Enter Variable Name: 
 OrchiDB@myCollection:~$ country
+Enter Variable Value: 
 OrchiDB@myCollection:~$ USA
+New variable country with value USA added to file 'jane.json'.
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ UPDATE_DOC_VAR
+Enter Doc Name:
 OrchiDB@myCollection:~$ jane
+Enter Variable Name:
 OrchiDB@myCollection:~$ country
+Enter Value: 
 OrchiDB@myCollection:~$ Canada
+Variable 'country' set to Canada in file 'jane.json'.
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ RETURN_DOC_VAR
+Enter Doc Name: 
 OrchiDB@myCollection:~$ jane
+Enter Variable Name:
 OrchiDB@myCollection:~$ country
+Canada
 OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ DEL_DOC_VAR
+Enter Doc Name: 
 OrchiDB@myCollection:~$ jane
+Enter Variable Name: 
 OrchiDB@myCollection:~$ country
+Variable country removed from file 'jane.json'.
+OrchiDB@myCollection:~$ CLEAR
+
 OrchiDB@myCollection:~$ DEL_COL
+Collection myCollection deleted.
 OrchiDB@myCollection:~$ EXIT
+Exiting Terminal
 |--------------------------------------------------------------|
 
 |--------------------myCollection2 Terminal--------------------|
 OrchiDB@myCollection:~$ DEL_COL
+Collection myCollection2 deleted.
 OrchiDB@myCollection:~$ EXIT
+Exiting Terminal
 |--------------------------------------------------------------|
 ```

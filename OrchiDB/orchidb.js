@@ -257,14 +257,14 @@ class Collection{
             this.returnDocPath(returnPathName);
             break;
           case 'COPY_COL':
-            console.log('Enter New Collection Name:');
+            console.log('Enter Target Collection:');
             const copyColName = prompt(promptMessage);
             this.copyCol(copyColName);
             break;
           case 'COPY_DOC_TO_COL':
             console.log('Enter Doc Name:');
             const copyDocName = prompt(promptMessage);
-            console.log('Enter Collection Name:');
+            console.log('Enter Target Collection:');
             const copy_ColName = prompt(promptMessage);
             this.copyDocToCol(copyDocName, copy_ColName);
             break;
@@ -349,6 +349,8 @@ class Collection{
             console.log("RETURN_DOC_VAR: Return the value of a variable in a document.");
             console.log('');
             console.log("HELP: Display information about the available commands.");
+            console.log('');
+            console.log('|--------------------------------------------------------------------------------------|');
             console.log('');
             break;
           default:
