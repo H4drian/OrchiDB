@@ -198,7 +198,7 @@ class Collection{
   };
 
   terminal = {
-    promptMessage = `${db}@${col}:~$ `,
+    promptMessage: `${path.basename(__dirname)}@${this.name}:~$ `,
     run: () => {
       console.log(`\n|--------------------${this.name} Terminal--------------------|`);
       while (true) {
