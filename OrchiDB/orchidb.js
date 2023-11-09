@@ -15,6 +15,167 @@ class Collection{
     } else {
       console.log(`Folder ${this.name} already exists.`);
     }
+    this.terminal = {
+      promptMessage: `${path.basename(__dirname)}@${this.name}:~$`,
+      run: () => {
+        console.log(`\n|--------------------${this.name} Terminal--------------------|`);
+        while (true) {
+          let command = prompt(this.terminal.promptMessage);
+          switch (command) {
+            case 'EXIT':
+              console.log('Exiting Terminal');
+              console.log('|-------------------------------------------------------------| \n');
+              return;
+            case 'NEW_DOC':
+              console.log('Enter Doc Name:');
+              const newDocName = prompt(this.terminal.promptMessage);
+              console.log('Enter Content:');
+              const newContentStr = prompt(this.terminal.promptMessage);
+              const newContent = JSON.parse(newContentStr);
+              this.newDoc(newDocName, newContent);
+              break;
+            case 'READ_DOC':
+              console.log('Enter Doc Name:');
+              const readDocName = prompt(this.terminal.promptMessage);
+              this.readDoc(readDocName);
+              break;
+            case 'UPDATE_DOC':
+              console.log('Enter Doc Name:');
+              const updatedDocName = prompt(this.terminal.promptMessage);
+              console.log('Enter Content:');
+              const updatedContentStr = prompt(this.terminal.promptMessage);
+              const updatedContent = JSON.parse(updatedContentStr);
+              this.updateDoc(updatedDocName, updatedContent);
+              break;
+            case 'DEL_DOC':
+              console.log('Enter Doc Name:');
+              const deleteDocName = prompt(this.terminal.promptMessage);
+              this.deleteDoc(deleteDocName);
+              break;
+            case 'RESTORE_DOC':
+              console.log('Enter Doc Name:');
+              const restoreDocName = prompt(this.terminal.promptMessage);
+              this.restoreDoc(restoreDocName);
+              break;
+            case 'EMPTY_TRASH':
+              this.emptyTrash();
+              break;
+            case 'RENAME_DOC':
+              console.log('Enter Doc Name:');
+              const renameDocName = prompt(this.terminal.promptMessage);
+              console.log('Enter New Doc Name:');
+              const newName = prompt(this.terminal.promptMessage);
+              this.renameDoc(renameDocName, newName);
+              break;
+            case 'RETURN_PATH':
+              console.log('Enter Doc Name:');
+              const returnPathName = prompt(this.terminal.promptMessage);
+              this.returnDocPath(returnPathName);
+              break;
+            case 'COPY_COL':
+              console.log('Enter Target Collection:');
+              const copyColName = prompt(this.terminal.promptMessage);
+              this.copyCol(copyColName);
+              break;
+            case 'COPY_DOC_TO_COL':
+              console.log('Enter Doc Name:');
+              const copyDocName = prompt(this.terminal.promptMessage);
+              console.log('Enter Target Collection:');
+              const copy_ColName = prompt(this.terminal.promptMessage);
+              this.copyDocToCol(copyDocName, copy_ColName);
+              break;
+            case 'DEL_COL':
+              this.deleteCol();
+              break;
+            case 'CLEAR':
+              console.clear();
+              console.log(`|--------------------${this.name} Terminal--------------------|`);
+              break;
+            case 'UPDATE_DOC_VAR':
+              console.log('Enter Doc Name:');
+              const updateDocName = prompt(this.terminal.promptMessage);
+              console.log('Enter Variable Name:');
+              const variable = prompt(this.terminal.promptMessage);
+              console.log('Enter Value:');
+              const value = prompt(this.terminal.promptMessage);
+              this.updateVariable(updateDocName, variable, value);
+              break;
+            case 'NEW_DOC_VAR':
+              console.log('Enter Doc Name:');
+              const new_DocName = prompt(this.terminal.promptMessage);
+              console.log('Enter Variable Name:');
+              const newVarName = prompt(this.terminal.promptMessage);
+              console.log('Enter Variable Value:');
+              const varValue = prompt(this.terminal.promptMessage);
+              this.newVariable(new_DocName, newVarName, varValue);
+              break;
+            case 'DEL_DOC_VAR':
+              console.log('Enter Doc Name:');
+              const delDocName = prompt(this.terminal.promptMessage);
+              console.log('Enter Variable Name:');
+              const delVarName = prompt(this.terminal.promptMessage);
+              this.deleteVariable(delDocName, delVarName);
+              break;
+            case 'LIST_DOCS':
+              this.listDocs();
+              break;
+            case 'RETURN_DOC_VAR':
+              console.log('Enter Doc Name:');
+              const readDocname = prompt(this.terminal.promptMessage);
+              console.log('Enter Variable Name:');
+              const readVarName = prompt(this.terminal.promptMessage);
+              this.returnVariable(readDocname, readVarName);
+              break;
+            case 'HELP':
+              console.log('|------------------------------------------COMMANDS-----------------------------------------|')
+              console.log("EXIT: Exit the terminal.");
+              console.log('');
+              console.log("NEW_DOC: Create a new document in the collection with specified name and content.");
+              console.log('');
+              console.log("READ_DOC: Read the content of a document with specified name.");
+              console.log('');
+              console.log("UPDATE_DOC: Update the content of a document with specified name.");
+              console.log('');
+              console.log("DEL_DOC: Delete a document with specified name and move it to the TRASH folder.");
+              console.log('');
+              console.log("RESTORE_DOC: Restore a document from the TRASH folder to its original location.");
+              console.log('');
+              console.log("EMPTY_TRASH: Empty the TRASH folder and permanently delete all its contents.");
+              console.log('');
+              console.log("RENAME_DOC: Rename a document by providing its current name and the new name.");
+              console.log('');
+              console.log("RETURN_PATH: Return the file path of a document with specified name.");
+              console.log('');
+              console.log("COPY_COL: Create a copy of the entire collection with a new name.");
+              console.log('');
+              console.log("COPY_DOC_TO_COL: Copy a document from the current collection to another collection.");
+              console.log('');
+              console.log("DEL_COL: Delete the entire collection, including all its documents and the TRASH folder.");
+              console.log('');
+              console.log("CLEAR: Clear the console screen.");
+              console.log('');
+              console.log("UPDATE_DOC_VAR: Update the value of a variable in a document.");
+              console.log('');
+              console.log("NEW_DOC_VAR: Add a new variable with a value to a document.");
+              console.log('');
+              console.log("DEL_DOC_VAR: Delete a variable from a document.");
+              console.log('');
+              console.log("LIST_DOCS: List all the documents in the collection.");
+              console.log('');
+              console.log("RETURN_DOC_VAR: Return the value of a variable in a document.");
+              console.log('');
+              console.log("HELP: Display information about the available commands.");
+              console.log('');
+              console.log('|--------------------------------------------------------------------------------------|');
+              console.log('');
+              break;
+            default:
+              console.log('Invalid Command');
+              break;
+          }
+        }
+      }
+    };
   };
 
   newDoc(filename, data){
@@ -120,7 +281,7 @@ class Collection{
     });
     console.log(`All files copied to collection '${targetCollection}' and overwritten if exists.`);
   }
-  
+
   copyDocToCol(docName, targetCollection){
     const filePath = path.join(this.colPath, `${docName}.json`);
     const targetColPath = path.join(__dirname, targetCollection);
@@ -131,7 +292,7 @@ class Collection{
     fs.copyFileSync(filePath, targetPath);
     console.log(`Document '${docName}.json' copied to collection '${targetCollection}'.`);
   };
-  
+
   deleteCol(){
     const deleteFolderRecursive = (directory) => {
         if (fs.existsSync(directory)) {
@@ -187,7 +348,7 @@ class Collection{
     console.log(`${doc[variable]}`);
     return doc[variable];
   };
-  
+
   deleteVariable(filename, variable){
     const filePath = path.join(this.colPath, filename + '.json');
     const data = fs.readFileSync(filePath, 'utf8');
@@ -196,170 +357,6 @@ class Collection{
     fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
     console.log(`Variable ${variable} removed from file '${filename}.json'.`);
   };
-
-  terminal = {
-    promptMessage: `${path.basename(__dirname)}@${this.name}:~$ `,
-    run: () => {
-      console.log(`\n|--------------------${this.name} Terminal--------------------|`);
-      while (true) {
-        const db = path.basename(__dirname);
-        const col = this.name;
-        let command = prompt(promptMessage);
-        switch (command) {
-          case 'EXIT':
-            console.log('Exiting Terminal');
-            console.log('|-------------------------------------------------------------| \n');
-            return;
-          case 'NEW_DOC':
-            console.log('Enter Doc Name:');
-            const newDocName = prompt(promptMessage);
-            console.log('Enter Content:');
-            const newContentStr = prompt(promptMessage);
-            const newContent = JSON.parse(newContentStr);
-            this.newDoc(newDocName, newContent);
-            break;
-          case 'READ_DOC':
-            console.log('Enter Doc Name:');
-            const readDocName = prompt(promptMessage);
-            this.readDoc(readDocName);
-            break;
-          case 'UPDATE_DOC':
-            console.log('Enter Doc Name:');
-            const updatedDocName = prompt(promptMessage);
-            console.log('Enter Content:');
-            const updatedContentStr = prompt(promptMessage);
-            const updatedContent = JSON.parse(updatedContentStr);
-            this.updateDoc(updatedDocName, updatedContent);
-            break;
-          case 'DEL_DOC':
-            console.log('Enter Doc Name:');
-            const deleteDocName = prompt(promptMessage);
-            this.deleteDoc(deleteDocName);
-            break;
-          case 'RESTORE_DOC':
-            console.log('Enter Doc Name:');
-            const restoreDocName = prompt(promptMessage);
-            this.restoreDoc(restoreDocName);
-            break;
-          case 'EMPTY_TRASH':
-            this.emptyTrash();
-            break;
-          case 'RENAME_DOC':
-            console.log('Enter Doc Name:');
-            const renameDocName = prompt(promptMessage);
-            console.log('Enter New Doc Name:');
-            const newName = prompt(promptMessage);
-            this.renameDoc(renameDocName, newName);
-            break;
-          case 'RETURN_PATH':
-            console.log('Enter Doc Name:');
-            const returnPathName = prompt(promptMessage);
-            this.returnDocPath(returnPathName);
-            break;
-          case 'COPY_COL':
-            console.log('Enter Target Collection:');
-            const copyColName = prompt(promptMessage);
-            this.copyCol(copyColName);
-            break;
-          case 'COPY_DOC_TO_COL':
-            console.log('Enter Doc Name:');
-            const copyDocName = prompt(promptMessage);
-            console.log('Enter Target Collection:');
-            const copy_ColName = prompt(promptMessage);
-            this.copyDocToCol(copyDocName, copy_ColName);
-            break;
-          case 'DEL_COL':
-            this.deleteCol();
-            break;
-          case 'CLEAR':
-            console.clear();
-            console.log(`|--------------------${this.name} Terminal--------------------|`);
-            break;
-          case 'UPDATE_DOC_VAR':
-            console.log('Enter Doc Name:');
-            const updateDocName = prompt(promptMessage);
-            console.log('Enter Variable Name:');
-            const variable = prompt(promptMessage);
-            console.log('Enter Value:');
-            const value = prompt(promptMessage);
-            this.updateVariable(updateDocName, variable, value);
-            break;
-          case 'NEW_DOC_VAR':
-            console.log('Enter Doc Name:');
-            const new_DocName = prompt(promptMessage);
-            console.log('Enter Variable Name:');
-            const newVarName = prompt(promptMessage);
-            console.log('Enter Variable Value:');
-            const varValue = prompt(promptMessage);
-            this.newVariable(new_DocName, newVarName, varValue);
-            break;
-          case 'DEL_DOC_VAR':
-            console.log('Enter Doc Name:');
-            const delDocName = prompt(promptMessage);
-            console.log('Enter Variable Name:');
-            const delVarName = prompt(promptMessage);
-            this.deleteVariable(delDocName, delVarName);
-            break;
-          case 'LIST_DOCS':
-            this.listDocs();
-            break;
-          case 'RETURN_DOC_VAR':
-            console.log('Enter Doc Name:');
-            const readDocname = prompt(promptMessage);
-            console.log('Enter Variable Name:');
-            const readVarName = prompt(promptMessage);
-            this.returnVariable(readDocname, readVarName);
-            break;
-          case 'HELP':
-            console.log('|------------------------------------------COMMANDS-----------------------------------------|')
-            console.log("EXIT: Exit the terminal.");
-            console.log('');
-            console.log("NEW_DOC: Create a new document in the collection with specified name and content.");
-            console.log('');
-            console.log("READ_DOC: Read the content of a document with specified name.");
-            console.log('');
-            console.log("UPDATE_DOC: Update the content of a document with specified name.");
-            console.log('');
-            console.log("DEL_DOC: Delete a document with specified name and move it to the TRASH folder.");
-            console.log('');
-            console.log("RESTORE_DOC: Restore a document from the TRASH folder to its original location.");
-            console.log('');
-            console.log("EMPTY_TRASH: Empty the TRASH folder and permanently delete all its contents.");
-            console.log('');
-            console.log("RENAME_DOC: Rename a document by providing its current name and the new name.");
-            console.log('');
-            console.log("RETURN_PATH: Return the file path of a document with specified name.");
-            console.log('');
-            console.log("COPY_COL: Create a copy of the entire collection with a new name.");
-            console.log('');
-            console.log("COPY_DOC_TO_COL: Copy a document from the current collection to another collection.");
-            console.log('');
-            console.log("DEL_COL: Delete the entire collection, including all its documents and the TRASH folder.");
-            console.log('');
-            console.log("CLEAR: Clear the console screen.");
-            console.log('');
-            console.log("UPDATE_DOC_VAR: Update the value of a variable in a document.");
-            console.log('');
-            console.log("NEW_DOC_VAR: Add a new variable with a value to a document.");
-            console.log('');
-            console.log("DEL_DOC_VAR: Delete a variable from a document.");
-            console.log('');
-            console.log("LIST_DOCS: List all the documents in the collection.");
-            console.log('');
-            console.log("RETURN_DOC_VAR: Return the value of a variable in a document.");
-            console.log('');
-            console.log("HELP: Display information about the available commands.");
-            console.log('');
-            console.log('|--------------------------------------------------------------------------------------|');
-            console.log('');
-            break;
-          default:
-            console.log('Invalid Command');
-            break;
-        }
-      }
-    }
-  };
 }
 
-module.exports = { Collection }; 
+module.exports = { Collection };
