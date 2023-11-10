@@ -13,5 +13,5 @@ console.log('| read the markdown file inside this replit.      |');
 console.log('| OrchiDB is still in early development so expect |');
 console.log('| some errors.                                    |');
 console.log('|-------------------------------------------------|');
-console.log('|    Developed by H4    |    DB Version: 2        |');
+console.log('|    Developed by H4    |    DB Version: 2.3      |');
 console.log('|-------------------------------------------------|');

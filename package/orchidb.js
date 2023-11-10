@@ -3,9 +3,10 @@ const path = require('path');
 const prompt = require('prompt-sync')();
 
 class Collection{
-  constructor(name){
+  constructor(dbPath, name){
+    this.dbPath = dbPath;
     this.name = name;
-    this.colPath = path.join(__dirname, this.name);
+    this.colPath = path.join(dbPath, this.name);
     if (!fs.existsSync(this.colPath)) {
       fs.mkdirSync(this.colPath);
       fs.mkdirSync(path.join(this.colPath, 'TRASH'));
@@ -15,7 +16,7 @@ class Collection{
       console.log(`Folder ${this.name} already exists.`);
     }
     this.terminal = {
-      promptMessage: `${path.basename(__dirname)}@${this.name}:~$`,
+      promptMessage: `${path.basename(dbPath)}@${this.name}:~$`,
       run: () => {
         console.log(`\n|--------------------${this.name} Terminal--------------------|`);
         while (true) {
@@ -258,7 +259,7 @@ class Collection{
         fs.copyFileSync(source, target);
       }
     }
-    const targetColPath = path.join(__dirname, targetCollection);
+    const targetColPath = path.join(this.dbPath, targetCollection);
     if (!fs.existsSync(targetColPath)) {
       fs.mkdirSync(targetColPath);
     }
@@ -283,7 +284,7 @@ class Collection{
 
   copyDocToCol(docName, targetCollection){
     const filePath = path.join(this.colPath, `${docName}.json`);
-    const targetColPath = path.join(__dirname, targetCollection);
+    const targetColPath = path.join(this.dbPath, targetCollection);
     if (!fs.existsSync(targetColPath)) {
       fs.mkdirSync(targetColPath);
     }
@@ -307,7 +308,7 @@ class Collection{
         }
     };
     try {
-        const colPath = path.join(__dirname, this.name);
+        const colPath = path.join(this.dbPath, this.name);
         deleteFolderRecursive(colPath);
         console.log(`Collection ${this.name} deleted.`);
     } catch (err) { 
@@ -343,9 +344,12 @@ class Collection{
   };
 
   returnVariable(docName, variable){
-    const doc = require(path.join(this.colPath, `${docName}.json`));
-    console.log(`${doc[variable]}`);
-    return doc[variable];
+    const docPath = path.join(this.colPath, docName + '.json');
+    const data = fs.readFileSync(docPath, 'utf8');
+    const jsonData = JSON.parse(data);
+    const value = jsonData[variable]; 
+    console.log(`${value}`);
+    return value;
   };
 
   deleteVariable(filename, variable){

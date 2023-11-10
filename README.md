@@ -2,14 +2,19 @@
 OrchiDB is a lightweight, JSON Document-Oriented database managment system with an emphasis on simple syntax and easy setup. OrchiDB can take queries using JavaScript code using the OrchiDB module, text-based input via the terminal, or even through its very own data query language, OrchidQL.
 
 # How to Setup a Database
-To set up a database, first create the folder where the collections will be stored, then download the OrchiDB.js module and move it to the database folder. Lastly import the module to the program which will be taking the queries.
+To set up a database create the folder where the collections will be held, then downloa the orchidb module.
 ~~~
-const db = require('./OrchiDB/orchidb.js');
+npm install orchidb
+~~~
+And lastly import the module to the file of your choosing.
+~~~
+const db = require('orchidb');
 ~~~
 # Using JavaScript to Query to the Database
 To use JavaScript with OrchiDB, create a new collection using the collection class,
 ~~~
-const myCollection = new db.Collection('myCollection')
+const myCollection = new db.Collection('./OrchiDB', 'myCollection');
+//First input is the path to the database folder, second is the collection name.
 ~~~
 Now you can use the collection object's functions to query the collection.
 
@@ -106,11 +111,13 @@ myCollection.deleteVariable('jane', 'gender');
 ## Nested Collections
 Collections can have collections inside of them. To create a collection inside of a collection first create a primary collection
 ~~~
-const primaryCollection = new db.Collection('primaryCollection');
+const primaryCollection = new db.Collection('./OrchiDB', 'primaryCollection');
 ~~~
 Then create another collection within the directory of the primary one
 ~~~
-const secondaryCollection = new db.Collection('primaryCollection/secondaryCollection');
+const secondaryCollection = new db.Collection('./OrchiDB', 'primaryCollection/secondaryCollection');
+// Or
+const secondaryCollection = new db.Collection('./OrchiDB/primaryColleection'. 'secondaryCollection');
 ~~~
 Some primaryCollection functions can work on the secondaryCollection.
 - listDocs will list the secondaryCollection as a folder inside of the primaryCollection
@@ -122,8 +129,8 @@ secondaryCollections cannot preform operations onto its primaryCollection, i.e. 
 # Using the OrchiDB Terminal
 To use the OrchiDB terminal, first set up a collection.
 ~~~
-const db = require('./OrchiDB/orchidb.js');
-const myCollection = new db.Collection('myCollection');
+const db = require('orchidb');
+const myCollection = new db.Collection('./OrchiDB', 'myCollection');
 ~~~
 Then use the terminal.run() function
 ~~~
@@ -163,8 +170,8 @@ From here just enter any of the terminal commands in the input line.
 ~~~
 /// index.js
 
-const db = require('./OrchiDB/orchidb.js');
-const myCollection = new db.Collection('myCollection');
+const db = require('orchidb');
+const myCollection = new db.Collection('./OrchiDB', 'myCollection');
 
 myCollection.newDoc('john', {
   name: 'John',
@@ -186,7 +193,7 @@ myCollection.updateDoc('jane', {
   address: '456 Main St'
 });
 myCollection.readDoc('jane');
-const myCollection2 = new db.Collection('myCollection2');
+const myCollection2 = new db.Collection('./OrchiDB', 'myCollection2');
 myCollection.copyCol('myCollection2');
 myCollection.newDoc('blank', {});
 myCollection.copyDocToCol('blank', 'myCollection2');
@@ -202,16 +209,16 @@ myCollection2.deleteCol();
 ~~~
 // index.js 
 
-const db = require('./OrchiDB/orchidb.js');
+const db = require('orchidb');
 async function runMyCollectionTerminal(){
   // function runs terminal for myCollection, halting all other terminals to avoid errors.
-  const myCollection = new db.Collection('myCollection');
+  const myCollection = new db.Collection('./OrchiDB', 'myCollection');
   myCollection.terminal.run();
 };
 runMyCollectionTerminal(); 
 console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~');
 console.log('Running myCollection2 Terminal');
-const myCollection2 = new db.Collection('myCollection2');
+const myCollection2 = new db.Collection('./OrchiDB', 'myCollection2');
 myCollection2.terminal.run();
 ~~~
 ```
