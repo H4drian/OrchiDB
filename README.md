@@ -29,10 +29,10 @@ myCollection.newDoc('john', {
   address: '123 Main St'
 });
 ~~~
-### `returnDocPath(docName)`
-The `returnDocPath` function returns the path to the document.
+### `getDocPath(docName)`
+The `getDocPath` function returns the path to the document.
 ~~~
-myCollection.returnDocPath('john');
+myCollection.getDocPath('john');
 ~~~
 ### `deleteDoc(docName)`
 The `deleteDoc` function deletes the document and moves it to the TRASH folder in the collection.
@@ -54,10 +54,10 @@ The `renameDoc` function renames a document in the collection to a new name.
 ~~~
 myCollection.renameDoc('john', 'jane');
 ~~~
-### `readDoc(docName)`
-The `readDoc` function returns the data inside of a document in the collection.
+### `getDoc(docName)`
+The `getDoc` function returns the data inside of a document in the collection.
 ~~~
-myCollection.readDoc('jane');
+myCollection.getDoc('jane');
 ~~~
 ### `updateDoc(docName, data)`
 The `updateDoc` function overwrites all data inside of a document in the collection with the data inputed.
@@ -99,10 +99,10 @@ The `newVariable` function adds a new variable to a document in the collection.
 ~~~
 myCollection.newVariable('jane', 'gender', 'female');
 ~~~
-### `returnVariable(docName, variable)`
-The `returnVariable` function returns the value of a variable inside a document in the collection.
+### `getVariable(docName, variable)`
+The `getVariable` function returns the value of a variable inside a document in the collection.
 ~~~
-myCollection.returnVariable('jane', 'gender'); //returns 'female'
+myCollection.getVariable('jane', 'gender'); //returns 'female'
 ~~~
 ### `deleteVariable(docName, variable)`
 The `deleteVariable` function removes the variable and its associated value from the document in the collection.
@@ -150,20 +150,20 @@ From here just enter any of the terminal commands in the input line.
 |       EXIT        |
 |       CLEAR       |
 |      NEW_DOC      |
-|     READ_DOC      |
+|      GET_DOC      |
 |   UPDATE_DOC      |
 |      DEL_DOC      |
 |  RESTORE_DOC      |
 |    EMPTY_TRASH    |
 |   RENAME_DOC      |
 |     LIST_DOCS     |
-|   RETURN_PATH     |
+|      GET_PATH     |
 |     COPY_COL      |
 | COPY_DOC_TO_COL   |
 |      DEL_COL      |
 | UPDATE_DOC_VAR    |
 |    NEW_DOC_VAR    |
-|   READ_DOC_VAR    |
+|    GET_DOC_VAR    |
 |    DEL_DOC_VAR    |
 
 # Example Programs
@@ -179,7 +179,7 @@ myCollection.newDoc('john', {
   age: 22,
   address: '123 Main St'
 });
-myCollection.returnDocPath('john');
+myCollection.getDocPath('john');
 myCollection.deleteDoc('john');
 myCollection.emptyTrash();
 myCollection.newDoc('john', {
@@ -193,14 +193,14 @@ myCollection.updateDoc('jane', {
   age: 21,
   address: '456 Main St'
 });
-myCollection.readDoc('jane');
+myCollection.getDoc('jane');
 const myCollection2 = new db.Collection('./OrchiDB', 'myCollection2');
 myCollection.copyCol('myCollection2');
 myCollection.newDoc('blank', {});
 myCollection.copyDocToCol('blank', 'myCollection2');
-myCollection2.readDoc('blank');
+myCollection2.getDoc('blank');
 myCollection.newVariable('jane', 'country', 'USA');
-myCollection.returnVariable('jane', 'country', 'USA');
+myCollection.getVariable('jane', 'country', 'USA');
 myCollection.updateVariable('jane', 'country', 'Canada');
 myCollection.deleteVariable('jane', 'country');
 myCollection.deleteCol();
@@ -230,7 +230,7 @@ EXIT: Exit the terminal.
 
 NEW_DOC: Create a new document in the collection with specified name and content.
 
-READ_DOC: Read the content of a document with specified name.
+Get_DOC: Returns the contents of a document with specified name.
 
 UPDATE_DOC: Update the content of a document with specified name.
 
@@ -242,7 +242,7 @@ EMPTY_TRASH: Empty the TRASH folder and permanently delete all its contents.
 
 RENAME_DOC: Rename a document by providing its current name and the new name.
 
-RETURN_PATH: Return the file path of a document with specified name.
+GET_PATH: Return the file path of a document with specified name.
 
 COPY_COL: Create a copy of the entire collection with a new name.
 
@@ -260,7 +260,7 @@ DEL_DOC_VAR: Delete a variable from a document.
 
 LIST_DOCS: List all the documents in the collection.
 
-RETURN_DOC_VAR: Return the value of a variable in a document.
+GET_DOC_VAR: Returns the value of a variable in a document.
 
 HELP: Display information about the available commands.
 |--------------------------------------------------------------------------------------|
@@ -326,7 +326,7 @@ OrchiDB@myCollection:~$ LIST_DOCS
 [ 'TRASH', 'jane.json']
 OrchiDB@myCollection:~$ CLEAR
 
-OrchiDB@myCollection:~$ RETURN_PATH
+OrchiDB@myCollection:~$ GET_PATH
 Enter Doc Name: 
 OrchiDB@myCollection:~$ jane
 Path to jane: /home/runner/OrchiDB/OrchiDB/myCollection/jane.json
@@ -374,7 +374,7 @@ OrchiDB@myCollection:~$ Canada
 Variable 'country' set to Canada in file 'jane.json'.
 OrchiDB@myCollection:~$ CLEAR
 
-OrchiDB@myCollection:~$ RETURN_DOC_VAR
+OrchiDB@myCollection:~$ GET_DOC_VAR
 Enter Doc Name: 
 OrchiDB@myCollection:~$ jane
 Enter Variable Name:

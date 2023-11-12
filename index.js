@@ -34,7 +34,7 @@ class Collection{
               const newContent = JSON.parse(newContentStr);
               this.newDoc(newDocName, newContent);
               break;
-            case 'READ_DOC':
+            case 'GET_DOC':
               console.log('Enter Doc Name:');
               const readDocName = prompt(this.terminal.promptMessage);
               this.readDoc(readDocName);
@@ -67,7 +67,7 @@ class Collection{
               const newName = prompt(this.terminal.promptMessage);
               this.renameDoc(renameDocName, newName);
               break;
-            case 'RETURN_PATH':
+            case 'GET_PATH':
               console.log('Enter Doc Name:');
               const returnPathName = prompt(this.terminal.promptMessage);
               this.returnDocPath(returnPathName);
@@ -119,7 +119,7 @@ class Collection{
             case 'LIST_DOCS':
               this.listDocs();
               break;
-            case 'RETURN_DOC_VAR':
+            case 'GET_DOC_VAR':
               console.log('Enter Doc Name:');
               const readDocname = prompt(this.terminal.promptMessage);
               console.log('Enter Variable Name:');
@@ -132,7 +132,7 @@ class Collection{
               console.log('');
               console.log("NEW_DOC: Create a new document in the collection with specified name and content.");
               console.log('');
-              console.log("READ_DOC: Read the content of a document with specified name.");
+              console.log("GET_DOC: Read the content of a document with specified name.");
               console.log('');
               console.log("UPDATE_DOC: Update the content of a document with specified name.");
               console.log('');
@@ -144,7 +144,7 @@ class Collection{
               console.log('');
               console.log("RENAME_DOC: Rename a document by providing its current name and the new name.");
               console.log('');
-              console.log("RETURN_PATH: Return the file path of a document with specified name.");
+              console.log("GET_PATH: Return the file path of a document with specified name.");
               console.log('');
               console.log("COPY_COL: Create a copy of the entire collection with a new name.");
               console.log('');
@@ -162,7 +162,7 @@ class Collection{
               console.log('');
               console.log("LIST_DOCS: List all the documents in the collection.");
               console.log('');
-              console.log("RETURN_DOC_VAR: Return the value of a variable in a document.");
+              console.log("GET_DOC_VAR: Return the value of a variable in a document.");
               console.log('');
               console.log("HELP: Display information about the available commands.");
               console.log('');
@@ -187,7 +187,7 @@ class Collection{
     console.log(`Document ${filename} created.`);
   };
 
-  returnDocPath(filename){
+  getDocPath(filename){
     console.log(`Path to ${filename}: ${path.join(this.colPath, filename + '.json')}`);
     return path.join(this.colPath, filename + '.json');
   };
@@ -234,7 +234,7 @@ class Collection{
     console.log(`Document ${filename} changed to ${newFilename}.`);
   };
 
-  readDoc(filename){
+  getDoc(filename){
     const filePath = path.join(this.colPath, filename + '.json');
     const data = fs.readFileSync(filePath, 'utf8');
     console.log(`${filename}:\n${data}`);
@@ -343,7 +343,7 @@ class Collection{
     console.log(`New variable ${variable} with value ${value} added to file '${filename}.json'.`);
   };
 
-  returnVariable(docName, variable){
+  getVariable(docName, variable){
     const docPath = path.join(this.colPath, docName + '.json');
     const data = fs.readFileSync(docPath, 'utf8');
     const jsonData = JSON.parse(data);
