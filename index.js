@@ -116,8 +116,14 @@ class Collection{
               const delVarName = prompt(this.terminal.promptMessage);
               this.deleteVariable(delDocName, delVarName);
               break;
-            case 'LIST_DOCS':
-              this.listDocs();
+            case 'FIND_DOCS':
+              console.log('[Optional] Enter List of Properties: ');
+              const properties = prompt(this.terminal.promptMessage).split(', ');
+              if(properties == ''){
+                this.findDocs();
+                break;
+              }
+              this.findDocs(properties);
               break;
             case 'GET_DOC_VAR':
               console.log('Enter Doc Name:');
@@ -160,7 +166,7 @@ class Collection{
               console.log('');
               console.log("DEL_DOC_VAR: Delete a variable from a document.");
               console.log('');
-              console.log("LIST_DOCS: List all the documents in the collection.");
+              console.log("FIND_DOCS: Finds ever document in a collection with specified input properties.");
               console.log('');
               console.log("GET_DOC_VAR: Return the value of a variable in a document.");
               console.log('');
@@ -234,10 +240,13 @@ class Collection{
     console.log(`Document ${filename} changed to ${newFilename}.`);
   };
 
-  getDoc(filename){
-    const filePath = path.join(this.colPath, filename + '.json');
+  getDoc(filename, logToConsole){
+    const logToConsoleFlag = logToConsole;
+    const filePath = path.join(this.colPath, filename);
     const data = fs.readFileSync(filePath, 'utf8');
-    console.log(`${filename}:\n${data}`);
+    if(logToConsoleFlag == undefined){
+      console.log(`${filename}:\n${data}`);
+    }
     return JSON.parse(data);
   };
 
@@ -316,9 +325,31 @@ class Collection{
     }
   };
 
-  listDocs(){
-    const fileList = fs.readdirSync(this.colPath);
-    console.log(fileList);
+  findDocs(inputProperties){
+    const properties = inputProperties || [];
+    let outputArr = [];
+    const fileList = fs.readdirSync(this.colPath).filter(file => !fs.lstatSync(path.join(this.colPath, file)).isDirectory());
+    if(properties.length === 0){
+      fileList.forEach((file) => {
+        const data = this.getDoc(file, false);
+        outputArr.push(file);
+        console.log(`${file}: `);
+        console.log(data); 
+      });
+    } else {
+      fileList.forEach((file) => {
+        const data = this.getDoc(file, false);
+        const filteredData = Object.fromEntries(
+          Object.entries(data).filter(([key]) => properties.includes(key))
+        );
+        if (Object.keys(filteredData).length > 0) {
+          outputArr.push(file);
+          console.log(`${file}: `);
+          console.log(JSON.stringify(filteredData, null, 2));
+        }
+      });
+    }
+    return outputArr;
   };
 
   updateVariable(filename, variable, value){

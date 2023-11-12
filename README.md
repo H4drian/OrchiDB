@@ -56,8 +56,8 @@ The `renameDoc` function renames a document in the collection to a new name.
 ~~~
 myCollection.renameDoc('john', 'jane');
 ~~~
-### `getDoc(docName)`
-The `getDoc` function returns the data inside of a document in the collection.
+### `getDoc(docName, logToConsole)`
+The `getDoc` function returns the data inside of a document in the collection. Optionally you can specify if it should log to the console or not, by default it logs to the console.
 ~~~
 myCollection.getDoc('jane');
 ~~~
@@ -86,10 +86,10 @@ The `deleteCol` function permanently deletes the collection and all of its docum
 ~~~
 myCollection.deleteCol(); // permanently deletes myCollection
 ~~~
-### `listDocs()`
-The `listDocs` function lists every folder and document inside of a collection.
+### `findDocs([properties])`
+The `findDocs()` function finds and logs ever document in a collection, along with returning an array of filenames for each file logged. Optionally you can return only documents with specified properties listed in the input properties array.
 ~~~
-myCollection.listDocs();
+myCollection.findDocs(['name']);
 ~~~
 ### `updateVariable(docName, variable, value)`
 The `updateVariable` function changes the value of a variable inside a document in the collection.
@@ -123,7 +123,6 @@ const secondaryCollection = new db.Collection('./OrchiDB', 'primaryCollection/se
 const secondaryCollection = new db.Collection('./OrchiDB/primaryColleection', 'secondaryCollection');
 ~~~
 Some primaryCollection functions can work on the secondaryCollection.
-- listDocs will list the secondaryCollection as a folder inside of the primaryCollection
 - copyCol can copy every document and folder in the primaryCollection to the secondaryCollection (including the secondayCollection itself)
 - copyDocToCol can copy a document to the secondaryCollection
 
@@ -158,7 +157,7 @@ From here just enter any of the terminal commands in the input line.
 |  RESTORE_DOC      |
 |    EMPTY_TRASH    |
 |   RENAME_DOC      |
-|     LIST_DOCS     |
+|     FIND_DOCS     |
 |      GET_PATH     |
 |     COPY_COL      |
 | COPY_DOC_TO_COL   |
@@ -201,6 +200,7 @@ myCollection.copyCol('myCollection2');
 myCollection.newDoc('blank', {});
 myCollection.copyDocToCol('blank', 'myCollection2');
 myCollection2.getDoc('blank');
+myCollection2.listDocs();
 myCollection.newVariable('jane', 'country', 'USA');
 myCollection.getVariable('jane', 'country', 'USA');
 myCollection.updateVariable('jane', 'country', 'Canada');
@@ -260,7 +260,7 @@ NEW_DOC_VAR: Add a new variable with a value to a document.
 
 DEL_DOC_VAR: Delete a variable from a document.
 
-LIST_DOCS: List all the documents in the collection.
+FIND_DOCS: Finds ever document in a collection with specified input properties.
 
 GET_DOC_VAR: Returns the value of a variable in a document.
 
@@ -324,9 +324,15 @@ OrchiDB@myCollection:~$ jane
 Document john changed to jane.
 OrchiDB@myCollection:~$ CLEAR
 
-OrchiDB@myCollection:~$ LIST_DOCS
-[ 'TRASH', 'jane.json']
-OrchiDB@myCollection:~$ CLEAR
+OrchiDB@myCollection:~$FIND_DOCS
+[Optional] Enter List of Properties: 
+OrchiDB@myCollection:~$name, age
+john.json: 
+{
+  "name": "John",
+  "age": 22
+}
+OrchiDB@myCollection:~$CLEAR 
 
 OrchiDB@myCollection:~$ GET_PATH
 Enter Doc Name: 
