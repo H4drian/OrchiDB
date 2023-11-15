@@ -1,4 +1,3 @@
-//Add 'has' method that checks if a file exists in a collection, return true or false
 const fs = require('fs');
 const path = require('path');
 const prompt = require('prompt-sync')();
