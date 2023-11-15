@@ -1,3 +1,4 @@
+//Add 'has' method that checks if a file exists in a collection, return true or false
 const fs = require('fs');
 const path = require('path');
 const prompt = require('prompt-sync')();
@@ -384,6 +385,19 @@ class Collection{
     fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
     console.log(`Variables ${variables} removed from file '${docName}.json'.`);
   }; 
+
+  has(docName, logToConsole){
+    const log = logToConsole || true;
+    const filePath = path.join(this.colPath, docName + '.json');
+    if(log){
+      if(fs.existsSync(filePath)){
+        console.log(`Document ${docName} exists in collection ${this.name}`);
+      }else{
+        console.log(`Document ${docName} does not exist in collection ${this.name}`);
+      }
+    }
+    return fs.existsSync(filePath);
+  };
 }
 
-module.exports = { Collection };
+module.exports = { Collection }; 
