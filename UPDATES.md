@@ -23,3 +23,11 @@
 # 4.1.7
 - Removed more uneeded files
 - fixed version number
+
+# 4.1.8
+- Fixed package being outdated during code transfer
+
+# 4.2.0
+- Made all functions not log to the console by default
+- Updated more outdated files
+

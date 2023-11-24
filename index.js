@@ -10,10 +10,13 @@ class Collection{
     if (!fs.existsSync(this.colPath)) {
       fs.mkdirSync(this.colPath);
       fs.mkdirSync(path.join(this.colPath, 'TRASH'));
-      console.log(`Folder ${this.name} created with TRASH folder.`);
-      console.log(`Original files copied to the new directory.`);
-    } else {
-      console.log(`Folder ${this.name} already exists.`);
+      if(logToConsole == true){
+        console.log(`Collection ${name} created`)
+      }
+    }else{
+      if(logToConsole == true){
+        console.log(`Collection ${name} already exists`);
+      }
     }
     this.terminal = {
       promptMessage: `${path.basename(dbPath)}@${this.name}:~$`,
@@ -32,12 +35,12 @@ class Collection{
               console.log('Enter Content:');
               const newContentStr = prompt(this.terminal.promptMessage);
               const newContent = JSON.parse(newContentStr);
-              this.insert(newDocName, newContent);
+              this.insert(newDocName, newContent, true);
               break;
             case 'get':
               console.log('Enter Doc Name:');
               const readDocName = prompt(this.terminal.promptMessage);
-              this.get(readDocName);
+              this.get(readDocName, true);
               break;
             case 'update':
               console.log('Enter Doc Name:');
@@ -45,47 +48,47 @@ class Collection{
               console.log('Enter Content:');
               const updatedContentStr = prompt(this.terminal.promptMessage);
               const updatedContent = JSON.parse(updatedContentStr);
-              this.update(updatedDocName, updatedContent);
+              this.update(updatedDocName, updatedContent, true);
               break;
             case 'del':
               console.log('Enter Doc Name:');
               const deleteDocName = prompt(this.terminal.promptMessage);
-              this.delete(deleteDocName);
+              this.delete(deleteDocName, true);
               break;
             case 'restore':
               console.log('Enter Doc Name:');
               const restoreDocName = prompt(this.terminal.promptMessage);
-              this.restore(restoreDocName);
+              this.restore(restoreDocName, true);
               break;
             case 'empty_trash':
-              this.emptyTrash();
+              this.emptyTrash(true);
               break;
             case 'rename':
               console.log('Enter Doc Name:');
               const renameDocName = prompt(this.terminal.promptMessage);
               console.log('Enter New Doc Name:');
               const newName = prompt(this.terminal.promptMessage);
-              this.rename(renameDocName, newName);
+              this.rename(renameDocName, newName, true);
               break;
             case 'get_path':
               console.log('Enter Doc Name:');
               const returnPathName = prompt(this.terminal.promptMessage);
-              this.getPath(returnPathName);
+              this.getPath(returnPathName, true);
               break;
             case 'copy_col':
               console.log('Enter Target Collection:');
               const copyColName = prompt(this.terminal.promptMessage);
-              this.copyCol(copyColName);
+              this.copyCol(copyColName, true);
               break;
             case 'copy_doc_to_col':
               console.log('Enter Doc Name:');
               const copyDocName = prompt(this.terminal.promptMessage);
               console.log('Enter Target Collection:');
               const copy_ColName = prompt(this.terminal.promptMessage);
-              this.copyDocToCol(copyDocName, copy_ColName);
+              this.copyDocToCol(copyDocName, copy_ColName, true);
               break;
             case 'del_col':
-              this.deleteCol();
+              this.deleteCol(true);
               break;
             case 'clear':
               console.clear();
@@ -108,7 +111,7 @@ class Collection{
               const readDocname = prompt(this.terminal.promptMessage);
               console.log('Enter List of Variables:');
               const readVarList = prompt(this.terminal.promptMessage).split(', ');
-              this.getVar(readDocname, readVarList);
+              this.getVar(readDocname, readVarList, true);
               break;
             case 'overwrite':
               console.log('Enter Doc Name:');
@@ -116,7 +119,7 @@ class Collection{
               console.log('Enter Content:');
               const overwriteContentStr = prompt(this.terminal.promptMessage);
               const overwriteContent = JSON.parse(overwriteContentStr);
-              this.overwrite(overwriteDocName, overwriteContent);
+              this.overwrite(overwriteDocName, overwriteContent, true);
               break; 
             case 'help':
               console.log('|------------------------------------------COMMANDS-----------------------------------------|')
@@ -167,76 +170,92 @@ class Collection{
     };
   };
 
-  insert(docName, data){
+  insert(docName, data, logToConsole){
     const filePath = path.join(this.colPath, docName + '.json');
     if (fs.existsSync(filePath)) {
+      if(logToConsole === true){
         return console.log(`Document ${filePath} exists.`);
+      }
     }
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-    console.log(`Document ${docName} created.`);
+    if(logToConsole === true){
+      console.log(`Document ${docName} created.`);
+    }
   };
 
   getPath(docName, logToConsole){
-    const log = logToConsole || true;
+    const log = logToConsole;
     if(log){
       console.log(`Path to ${docName}: ${path.join(this.colPath, docName + '.json')}`);
     }
     return path.join(this.colPath, docName + '.json');
   };
 
-  delete(docName){
+  delete(docName, logToConsole){
     const filePath = path.join(this.colPath, docName + '.json');
     const targetPath = path.join(this.colPath, 'TRASH', docName + '.json');
     if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
         fs.rmdirSync(targetPath, { recursive: true });
     }
     fs.renameSync(filePath, targetPath);
-    console.log(`Document ${docName} moved to TRASH folder.`);
+    if(logToConsole === true){
+      console.log(`Document ${docName} moved to TRASH folder.`);
+    }
   };
 
-  restore(docName){
+  restore(docName, logToConsole){
     const filePath = path.join(this.colPath, 'TRASH', docName + '.json');
     if (!fs.existsSync(filePath)) {
+      if(logToConsole === true){
         console.log('Document does not exist in trash.');
+      }
         return;
     }
     const newFilePath = path.join(this.colPath, docName + '.json');
     fs.copyFileSync(filePath, newFilePath);
     fs.unlinkSync(filePath);
-    console.log(`Document ${docName} restored.`);
+    if(logToConsole === true){
+      console.log(`Document ${docName} restored.`);
+    }
   };
 
-  emptyTrash(){
+  emptyTrash(logToConsole){
     const trashPath = path.join(this.colPath, 'TRASH');
     fs.readdirSync(trashPath).forEach((file) => {
         const filePath = path.join(trashPath, file);
         fs.unlinkSync(filePath);
     });
-    console.log('Trash emptied.');
+    if(logToConsole === true){
+      console.log('Trash emptied.');
+    }
   };
 
-  rename(docName, newDocName){
+  rename(docName, newDocName, logToConsole){
     const filePath = path.join(this.colPath, docName + '.json');
     const newFilePath = path.join(this.colPath, newDocName + '.json');
     if (fs.existsSync(newFilePath)) {
+      if(logToConsole === true){
         console.log(`Document ${newDocName} already exists.`);
+      }
         return;
     }
     fs.renameSync(filePath, newFilePath);
-    console.log(`Document ${docName} changed to ${newDocName}.`);
+    if(logToConsole === true){
+      console.log(`Document ${docName} changed to ${newDocName}.`);
+    }
   };
 
   get(docName, logToConsole){
     const logToConsoleFlag = logToConsole;
     const filePath = path.join(this.colPath, docName + '.json');
     const data = fs.readFileSync(filePath, 'utf8');
-    if(logToConsoleFlag == undefined){
+    if(logToConsoleFlag == true){
       console.log(`${docName}:\n${data}`);
     }
     return JSON.parse(data);
   };
 
-  update(docName, variables){
+  update(docName, variables, logToConsole){
     const filePath = path.join(this.colPath, docName + '.json');
     if (fs.existsSync(filePath)) {
         const data = fs.readFileSync(filePath, 'utf8');
@@ -247,19 +266,25 @@ class Collection{
           jsonData[keys[i]] = values[i];
         } 
         fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
-        console.log(`File '${docName}.json' updated.`);
+        if(logToConsole === true){
+          console.log(`File '${docName}.json' updated.`);
+        }
     } else {
+      if(logToConsole === true){
         console.log(`File '${docName}.json' does not exist.`);
+      }
     }
   };
 
-  overwrite(docName, data){
+  overwrite(docName, data, logToConsole){
     const filePath = path.join(this.colPath, docName + '.json');
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-    console.log(`File '${docName}.json' overwritten.`);
+    if(logToConsole === true){
+      console.log(`File '${docName}.json' overwritten.`);
+    }
   };
 
-  copyCol(targetCollection) {
+  copyCol(targetCollection, logToConsole) {
     function copyDir(source, target){
       if (fs.lstatSync(source).isDirectory()) {
         fs.readdirSync(source).forEach((file) => {
@@ -291,10 +316,12 @@ class Collection{
         fs.copyFileSync(filePath, targetPath);
       }
     });
-    console.log(`All files copied to collection '${targetCollection}' and overwritten if exists.`);
+    if(logToConsole === true){
+      console.log(`All files copied to collection '${targetCollection}' and overwritten if exists.`);
+    }
   }
 
-  copyDocToCol(docName, targetCollection){
+  copyDocToCol(docName, targetCollection, logToConsole){
     const filePath = path.join(this.colPath, `${docName}.json`);
     const targetColPath = path.join(this.dbPath, targetCollection);
     if (!fs.existsSync(targetColPath)) {
@@ -302,10 +329,12 @@ class Collection{
     }
     const targetPath = path.join(targetColPath, `${docName}.json`);
     fs.copyFileSync(filePath, targetPath);
-    console.log(`Document '${docName}.json' copied to collection '${targetCollection}'.`);
+    if(logToConsole === true){
+      console.log(`Document '${docName}.json' copied to collection '${targetCollection}'.`);
+    }
   };
 
-  deleteCol(){
+  deleteCol(logToConsole){
     const deleteFolderRecursive = (directory) => {
         if (fs.existsSync(directory)) {
             fs.readdirSync(directory).forEach((file, index) => {
@@ -322,13 +351,15 @@ class Collection{
     try {
         const colPath = path.join(this.dbPath, this.name);
         deleteFolderRecursive(colPath);
-        console.log(`Collection ${this.name} deleted.`);
+        if(logToConsole === true){
+          console.log(`Collection ${this.name} deleted.`);
+        }
     } catch (err) { 
         console.error(`Error while deleting collection ${this.name}: ${err}`);
     }
   };
 
-  find(inputProperties){
+  find(inputProperties, logToConsole){
     const properties = inputProperties || {};
     let outputArr = [];
     const fileList = fs.readdirSync(this.colPath).filter(file => !fs.lstatSync(path.join(this.colPath, file)).isDirectory());
@@ -336,8 +367,10 @@ class Collection{
       fileList.forEach((file) => {
         const data = fs.readFileSync(file, 'utf-8');
         outputArr.push(file);
-        console.log(`${file}: `);
-        console.log(data);
+        if(logToConsole === true){
+          console.log(`${file}: `);
+          console.log(data);
+        }
       });
     } else {
       fileList.forEach((file) => {
@@ -347,8 +380,10 @@ class Collection{
         );
         if (Object.keys(filteredData).length > 0) {
           outputArr.push(file);
-          console.log(`${file}: `);
-          console.log(JSON.stringify(filteredData, null, 2));
+          if(logToConsole === true){
+            console.log(`${file}: `);
+            console.log(JSON.stringify(filteredData, null, 2));
+          }
         }
       });
     }
@@ -358,7 +393,7 @@ class Collection{
   getVar(docName, variables, logToConsole) {
     const docPath = path.join(this.colPath, docName + '.json');
     const doc = JSON.parse(fs.readFileSync(docPath, 'utf-8'));
-    const log = logToConsole || true;
+    const log = logToConsole;
     if (!doc) {
       throw new Error(`Document "${docName}" not found`);
     }
@@ -374,7 +409,7 @@ class Collection{
     return result;
   }
 
-  deleteVar(docName, variables) {
+  deleteVar(docName, variables, logToConsole) {
     const filePath = path.join(this.colPath, docName + '.json');
     const data = fs.readFileSync(filePath, 'utf8');
     const jsonData = JSON.parse(data);
@@ -382,18 +417,20 @@ class Collection{
       delete jsonData[variable];
     });
     fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
-    console.log(`Variables ${variables} removed from file '${docName}.json'.`);
+    if(logToConsole == true){
+      console.log(`Variables ${variables} removed from file '${docName}.json'.`);
+    }
   }; 
 
   has(docName, logToConsole){
-    const log = logToConsole || true;
+    const log = logToConsole;
     const filePath = path.join(this.colPath, docName + '.json');
-    if(log){
-      if(fs.existsSync(filePath)){
+    if(fs.existsSync(filePath)){
+      if(log){
         console.log(`Document ${docName} exists in collection ${this.name}`);
-      }else{
-        console.log(`Document ${docName} does not exist in collection ${this.name}`);
       }
+    }else{
+      console.log(`Document ${docName} does not exist in collection ${this.name}`);
     }
     return fs.existsSync(filePath);
   };
