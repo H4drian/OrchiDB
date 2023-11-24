@@ -19,3 +19,7 @@
 
 # 4.1.6
 - Linked the GitHub repository to the README.md file
+
+# 4.1.7
+- Removed more uneeded files
+- fixed version number

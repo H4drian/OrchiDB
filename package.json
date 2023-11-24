@@ -22,7 +22,7 @@
     "fs": "^0.0.1-security",
     "node-domexception": "^1.0.0",
     "node-fetch": "^3.3.0",
-    "orchidb": "^2.2.1",
+    "orchidb": "^2.2.3",
     "path": "^0.12.7",
     "prompt-sync": "^4.2.0",
     "web-streams-polyfill": "^3.2.1"
