@@ -1,6 +1,6 @@
 {
   "name": "orchidb",
-  "version": "4.0.0",
+  "version": "2.2.3",
   "description": "A lightweight, JSON-Document-Oriented database managment module for node.js",
   "main": "index.js",
   "scripts": {
@@ -19,9 +19,11 @@
     "data-uri-to-buffer": "^4.0.0",
     "fetch-blob": "^3.1.5",
     "formdata-polyfill": "^4.0.10",
+    "fs": "^0.0.1-security",
     "node-domexception": "^1.0.0",
     "node-fetch": "^3.3.0",
     "orchidb": "^2.2.1",
+    "path": "^0.12.7",
     "prompt-sync": "^4.2.0",
     "web-streams-polyfill": "^3.2.1"
   }

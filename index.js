@@ -20,141 +20,152 @@ class Collection{
       run: () => {
         console.log(`\n|--------------------${this.name} Terminal--------------------|`);
         while (true) {
-          let command = prompt(this.terminal.promptMessage).toLowerCase().trim();
-          switch (command){
-            case 'exit':
+          let command = prompt(this.terminal.promptMessage);
+          switch (command) {
+            case 'EXIT':
               console.log('Exiting Terminal');
               console.log('|-------------------------------------------------------------| \n');
               return;
-            case 'insert':
+            case 'NEW_DOC':
               console.log('Enter Doc Name:');
               const newDocName = prompt(this.terminal.promptMessage);
               console.log('Enter Content:');
               const newContentStr = prompt(this.terminal.promptMessage);
               const newContent = JSON.parse(newContentStr);
-              this.insert(newDocName, newContent);
+              this.newDoc(newDocName, newContent);
               break;
-            case 'get':
+            case 'READ_DOC':
               console.log('Enter Doc Name:');
               const readDocName = prompt(this.terminal.promptMessage);
-              this.get(readDocName);
+              this.readDoc(readDocName);
               break;
-            case 'update':
+            case 'UPDATE_DOC':
               console.log('Enter Doc Name:');
               const updatedDocName = prompt(this.terminal.promptMessage);
               console.log('Enter Content:');
               const updatedContentStr = prompt(this.terminal.promptMessage);
               const updatedContent = JSON.parse(updatedContentStr);
-              this.update(updatedDocName, updatedContent);
+              this.updateDoc(updatedDocName, updatedContent);
               break;
-            case 'del':
+            case 'DEL_DOC':
               console.log('Enter Doc Name:');
               const deleteDocName = prompt(this.terminal.promptMessage);
-              this.delete(deleteDocName);
+              this.deleteDoc(deleteDocName);
               break;
-            case 'restore':
+            case 'RESTORE_DOC':
               console.log('Enter Doc Name:');
               const restoreDocName = prompt(this.terminal.promptMessage);
-              this.restore(restoreDocName);
+              this.restoreDoc(restoreDocName);
               break;
-            case 'empty_trash':
+            case 'EMPTY_TRASH':
               this.emptyTrash();
               break;
-            case 'rename':
+            case 'RENAME_DOC':
               console.log('Enter Doc Name:');
               const renameDocName = prompt(this.terminal.promptMessage);
               console.log('Enter New Doc Name:');
               const newName = prompt(this.terminal.promptMessage);
-              this.rename(renameDocName, newName);
+              this.renameDoc(renameDocName, newName);
               break;
-            case 'get_path':
+            case 'RETURN_PATH':
               console.log('Enter Doc Name:');
               const returnPathName = prompt(this.terminal.promptMessage);
-              this.getPath(returnPathName);
+              this.returnDocPath(returnPathName);
               break;
-            case 'copy_col':
+            case 'COPY_COL':
               console.log('Enter Target Collection:');
               const copyColName = prompt(this.terminal.promptMessage);
               this.copyCol(copyColName);
               break;
-            case 'copy_doc_to_col':
+            case 'COPY_DOC_TO_COL':
               console.log('Enter Doc Name:');
               const copyDocName = prompt(this.terminal.promptMessage);
               console.log('Enter Target Collection:');
               const copy_ColName = prompt(this.terminal.promptMessage);
               this.copyDocToCol(copyDocName, copy_ColName);
               break;
-            case 'del_col':
+            case 'DEL_COL':
               this.deleteCol();
               break;
-            case 'clear':
+            case 'CLEAR':
               console.clear();
               console.log(`|--------------------${this.name} Terminal--------------------|`);
               break;
-            case 'del_var':
+            case 'UPDATE_DOC_VAR':
+              console.log('Enter Doc Name:');
+              const updateDocName = prompt(this.terminal.promptMessage);
+              console.log('Enter Variable Name:');
+              const variable = prompt(this.terminal.promptMessage);
+              console.log('Enter Value:');
+              const value = prompt(this.terminal.promptMessage);
+              this.updateVariable(updateDocName, variable, value);
+              break;
+            case 'NEW_DOC_VAR':
+              console.log('Enter Doc Name:');
+              const new_DocName = prompt(this.terminal.promptMessage);
+              console.log('Enter Variable Name:');
+              const newVarName = prompt(this.terminal.promptMessage);
+              console.log('Enter Variable Value:');
+              const varValue = prompt(this.terminal.promptMessage);
+              this.newVariable(new_DocName, newVarName, varValue);
+              break;
+            case 'DEL_DOC_VAR':
               console.log('Enter Doc Name:');
               const delDocName = prompt(this.terminal.promptMessage);
               console.log('Enter Variable Name:');
               const delVarName = prompt(this.terminal.promptMessage);
-              this.deleteVar(delDocName, delVarName);
+              this.deleteVariable(delDocName, delVarName);
               break;
-            case 'find':
-              console.log('[Optional] Enter Properties: ');
-              const properties = JSON.parse(prompt(this.terminal.promptMessage));
-              this.find(properties);
+            case 'LIST_DOCS':
+              this.listDocs();
               break;
-            case 'get_var':
+            case 'RETURN_DOC_VAR':
               console.log('Enter Doc Name:');
               const readDocname = prompt(this.terminal.promptMessage);
-              console.log('Enter List of Variables:');
-              const readVarList = prompt(this.terminal.promptMessage).split(', ');
-              this.getVar(readDocname, readVarList);
+              console.log('Enter Variable Name:');
+              const readVarName = prompt(this.terminal.promptMessage);
+              this.returnVariable(readDocname, readVarName);
               break;
-            case 'overwrite':
-              console.log('Enter Doc Name:');
-              const overwriteDocName = prompt(this.terminal.promptMessage);
-              console.log('Enter Content:');
-              const overwriteContentStr = prompt(this.terminal.promptMessage);
-              const overwriteContent = JSON.parse(overwriteContentStr);
-              this.overwrite(overwriteDocName, overwriteContent);
-              break; 
-            case 'help':
+            case 'HELP':
               console.log('|------------------------------------------COMMANDS-----------------------------------------|')
-              console.log("exit: Exit the terminal.");
+              console.log("EXIT: Exit the terminal.");
               console.log('');
-              console.log("insert: Create a new document in the collection with specified name and content.");
+              console.log("NEW_DOC: Create a new document in the collection with specified name and content.");
               console.log('');
-              console.log("get: Read the content of a document with specified name.");
+              console.log("READ_DOC: Read the content of a document with specified name.");
               console.log('');
-              console.log("update: Update the content of a document with specified name.");
+              console.log("UPDATE_DOC: Update the content of a document with specified name.");
               console.log('');
-              console.log("del: Delete a document with specified name and move it to the TRASH folder.");
+              console.log("DEL_DOC: Delete a document with specified name and move it to the TRASH folder.");
               console.log('');
-              console.log("restore: Restore a document from the TRASH folder to its original location.");
+              console.log("RESTORE_DOC: Restore a document from the TRASH folder to its original location.");
               console.log('');
-              console.log("empty_trash: Empty the TRASH folder and permanently delete all its contents.");
+              console.log("EMPTY_TRASH: Empty the TRASH folder and permanently delete all its contents.");
               console.log('');
-              console.log("rename: Rename a document by providing its current name and the new name.");
+              console.log("RENAME_DOC: Rename a document by providing its current name and the new name.");
               console.log('');
-              console.log("get_path: Return the file path of a document with specified name.");
+              console.log("RETURN_PATH: Return the file path of a document with specified name.");
               console.log('');
-              console.log("copy_col: Create a copy of the entire collection with a new name.");
+              console.log("COPY_COL: Create a copy of the entire collection with a new name.");
               console.log('');
-              console.log("copy_doc_to_col: Copy a document from the current collection to another collection.");
+              console.log("COPY_DOC_TO_COL: Copy a document from the current collection to another collection.");
               console.log('');
-              console.log("del_col: Delete the entire collection, including all its documents and the TRASH folder.");
+              console.log("DEL_COL: Delete the entire collection, including all its documents and the TRASH folder.");
               console.log('');
-              console.log("clear: Clear the console screen.");
+              console.log("CLEAR: Clear the console screen.");
               console.log('');
-              console.log("del_var: Delete a variable from a document.");
+              console.log("UPDATE_DOC_VAR: Update the value of a variable in a document.");
               console.log('');
-              console.log("find: Finds ever document in a collection with specified input properties.");
+              console.log("NEW_DOC_VAR: Add a new variable with a value to a document.");
               console.log('');
-              console.log("get_var: Return the value of a variable in a document.");
+              console.log("DEL_DOC_VAR: Delete a variable from a document.");
               console.log('');
-              console.log("help: Display information about the available commands.");
+              console.log("LIST_DOCS: List all the documents in the collection.");
               console.log('');
-              console.log('Capitalization does not matter when using terminal commands, but spelling does.');
+              console.log("RETURN_DOC_VAR: Return the value of a variable in a document.");
+              console.log('');
+              console.log("HELP: Display information about the available commands.");
+              console.log('');
               console.log('|--------------------------------------------------------------------------------------|');
               console.log('');
               break;
@@ -167,43 +178,40 @@ class Collection{
     };
   };
 
-  insert(docName, data){
-    const filePath = path.join(this.colPath, docName + '.json');
+  newDoc(filename, data){
+    const filePath = path.join(this.colPath, filename + '.json');
     if (fs.existsSync(filePath)) {
         return console.log(`Document ${filePath} exists.`);
     }
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-    console.log(`Document ${docName} created.`);
+    console.log(`Document ${filename} created.`);
   };
 
-  getPath(docName, logToConsole){
-    const log = logToConsole || true;
-    if(log){
-      console.log(`Path to ${docName}: ${path.join(this.colPath, docName + '.json')}`);
-    }
-    return path.join(this.colPath, docName + '.json');
+  returnDocPath(filename){
+    console.log(`Path to ${filename}: ${path.join(this.colPath, filename + '.json')}`);
+    return path.join(this.colPath, filename + '.json');
   };
 
-  delete(docName){
-    const filePath = path.join(this.colPath, docName + '.json');
-    const targetPath = path.join(this.colPath, 'TRASH', docName + '.json');
+  deleteDoc(filename){
+    const filePath = path.join(this.colPath, filename + '.json');
+    const targetPath = path.join(this.colPath, 'TRASH', filename + '.json');
     if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
         fs.rmdirSync(targetPath, { recursive: true });
     }
     fs.renameSync(filePath, targetPath);
-    console.log(`Document ${docName} moved to TRASH folder.`);
+    console.log(`Document ${filename} moved to TRASH folder.`);
   };
 
-  restore(docName){
-    const filePath = path.join(this.colPath, 'TRASH', docName + '.json');
+  restoreDoc(filename){
+    const filePath = path.join(this.colPath, 'TRASH', filename + '.json');
     if (!fs.existsSync(filePath)) {
         console.log('Document does not exist in trash.');
         return;
     }
-    const newFilePath = path.join(this.colPath, docName + '.json');
+    const newFilePath = path.join(this.colPath, filename + '.json');
     fs.copyFileSync(filePath, newFilePath);
     fs.unlinkSync(filePath);
-    console.log(`Document ${docName} restored.`);
+    console.log(`Document ${filename} restored.`);
   };
 
   emptyTrash(){
@@ -215,48 +223,28 @@ class Collection{
     console.log('Trash emptied.');
   };
 
-  rename(docName, newDocName){
-    const filePath = path.join(this.colPath, docName + '.json');
-    const newFilePath = path.join(this.colPath, newDocName + '.json');
+  renameDoc(filename, newFilename){
+    const filePath = path.join(this.colPath, filename + '.json');
+    const newFilePath = path.join(this.colPath, newFilename + '.json');
     if (fs.existsSync(newFilePath)) {
-        console.log(`Document ${newDocName} already exists.`);
+        console.log(`Document ${newFilename} already exists.`);
         return;
     }
     fs.renameSync(filePath, newFilePath);
-    console.log(`Document ${docName} changed to ${newDocName}.`);
+    console.log(`Document ${filename} changed to ${newFilename}.`);
   };
 
-  get(docName, logToConsole){
-    const logToConsoleFlag = logToConsole;
-    const filePath = path.join(this.colPath, docName + '.json');
+  readDoc(filename){
+    const filePath = path.join(this.colPath, filename + '.json');
     const data = fs.readFileSync(filePath, 'utf8');
-    if(logToConsoleFlag == undefined){
-      console.log(`${docName}:\n${data}`);
-    }
+    console.log(`${filename}:\n${data}`);
     return JSON.parse(data);
   };
 
-  update(docName, variables){
-    const filePath = path.join(this.colPath, docName + '.json');
-    if (fs.existsSync(filePath)) {
-        const data = fs.readFileSync(filePath, 'utf8');
-        const jsonData = JSON.parse(data);
-        const keys = Object.keys(variables);
-        const values = Object.values(variables);
-        for(let i = 0; i < keys.length; i++){
-          jsonData[keys[i]] = values[i];
-        } 
-        fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
-        console.log(`File '${docName}.json' updated.`);
-    } else {
-        console.log(`File '${docName}.json' does not exist.`);
-    }
-  };
-
-  overwrite(docName, data){
-    const filePath = path.join(this.colPath, docName + '.json');
+  updateDoc(filename, data){
+    const filePath = path.join(this.colPath, filename + '.json');
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-    console.log(`File '${docName}.json' overwritten.`);
+    console.log(`Document ${filename} updated.`);
   };
 
   copyCol(targetCollection) {
@@ -328,75 +316,50 @@ class Collection{
     }
   };
 
-  find(inputProperties){
-    const properties = inputProperties || {};
-    let outputArr = [];
-    const fileList = fs.readdirSync(this.colPath).filter(file => !fs.lstatSync(path.join(this.colPath, file)).isDirectory());
-    if (Object.keys(properties).length === 0) {
-      fileList.forEach((file) => {
-        const data = fs.readFileSync(file, 'utf-8');
-        outputArr.push(file);
-        console.log(`${file}: `);
-        console.log(data);
-      });
-    } else {
-      fileList.forEach((file) => {
-        const data = fs.readFileSync(path.join(this.colPath, file), 'utf-8');
-        const filteredData = Object.fromEntries(
-          Object.entries(data).filter(([key, value]) => properties[key] === value)
-        );
-        if (Object.keys(filteredData).length > 0) {
-          outputArr.push(file);
-          console.log(`${file}: `);
-          console.log(JSON.stringify(filteredData, null, 2));
-        }
-      });
-    }
-    return outputArr;
+  listDocs(){
+    const fileList = fs.readdirSync(this.colPath);
+    console.log(fileList);
   };
 
-  getVar(docName, variables, logToConsole) {
-    const docPath = path.join(this.colPath, docName + '.json');
-    const doc = JSON.parse(fs.readFileSync(docPath, 'utf-8'));
-    const log = logToConsole || true;
-    if (!doc) {
-      throw new Error(`Document "${docName}" not found`);
+  updateVariable(filename, variable, value){
+    const filePath = path.join(this.colPath, filename + '.json');
+    if (fs.existsSync(filePath)) {
+        const data = fs.readFileSync(filePath, 'utf8');
+        const jsonData = JSON.parse(data);
+        jsonData[variable] = value;
+        fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
+        console.log(`Variable '${variable}' set to ${value} in file '${filename}.json'`);
+    } else {
+        console.log(`File '${filename}.json' does not exist.`);
     }
-    const result = {};
-    variables.forEach(variable => {
-      if (doc.hasOwnProperty(variable)) {
-        result[variable] = doc[variable];
-      }
-    });
-    if (log) {
-      console.log(result);
-    }
-    return result;
-  }
+  };
 
-  deleteVar(docName, variables) {
-    const filePath = path.join(this.colPath, docName + '.json');
+  newVariable(filename, variable, value){
+    const filePath = path.join(this.colPath, filename + '.json');
     const data = fs.readFileSync(filePath, 'utf8');
     const jsonData = JSON.parse(data);
-    variables.forEach((variable) => {
-      delete jsonData[variable];
-    });
+    jsonData[variable] = value;
     fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
-    console.log(`Variables ${variables} removed from file '${docName}.json'.`);
-  }; 
+    console.log(`New variable ${variable} with value ${value} added to file '${filename}.json'.`);
+  };
 
-  has(docName, logToConsole){
-    const log = logToConsole || true;
-    const filePath = path.join(this.colPath, docName + '.json');
-    if(log){
-      if(fs.existsSync(filePath)){
-        console.log(`Document ${docName} exists in collection ${this.name}`);
-      }else{
-        console.log(`Document ${docName} does not exist in collection ${this.name}`);
-      }
-    }
-    return fs.existsSync(filePath);
+  returnVariable(docName, variable){
+    const docPath = path.join(this.colPath, docName + '.json');
+    const data = fs.readFileSync(docPath, 'utf8');
+    const jsonData = JSON.parse(data);
+    const value = jsonData[variable]; 
+    console.log(`${value}`);
+    return value;
+  };
+
+  deleteVariable(filename, variable){
+    const filePath = path.join(this.colPath, filename + '.json');
+    const data = fs.readFileSync(filePath, 'utf8');
+    const jsonData = JSON.parse(data);
+    delete jsonData[variable];
+    fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
+    console.log(`Variable ${variable} removed from file '${filename}.json'.`);
   };
 }
 
-module.exports = { Collection }; 
+module.exports = { Collection };

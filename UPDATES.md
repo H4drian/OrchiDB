@@ -4,3 +4,18 @@
 
 # 4.1.1
 - Removed uneeded replit files
+
+# 4.1.2
+- Fixed bugs with `find` function
+
+# 4.1.3
+- Added optional `logToConsole` parameter to the `find` function
+
+# 4.1.4
+- Fixed bugs with `logToConsole` parameter in the `find` function
+
+# 4.1.5
+- Fixed more bugs with the `logToConsole` parameter in the `find` function
+
+# 4.1.6
+- Linked the GitHub repository to the README.md file
