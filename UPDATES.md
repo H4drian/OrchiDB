@@ -35,3 +35,6 @@
 - Licensed OrchiDB under the MIT license
 - Moved source code into a src file
 - Changed the OrchiDB.png logo file into a transparent png
+
+# 4.2.2
+- Moved around files 
