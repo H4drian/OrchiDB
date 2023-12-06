@@ -31,3 +31,7 @@
 - Made all functions not log to the console by default
 - Updated more outdated files
 
+# 4.2.1
+- Licensed OrchiDB under the MIT license
+- Moved source code into a src file
+- Changed the OrchiDB.png logo file into a transparent png

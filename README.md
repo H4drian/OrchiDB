@@ -2,7 +2,7 @@
 # OrchiDB
 OrchiDB is an Open-Source, JSON Document-Oriented database managment system with an emphasis on simple syntax and easy setup. OrchiDB can take queries using JavaScript code using the OrchiDB module or even through text based input through the built in terminal.
 
-For the source code and update logs for OrchiDB vist the replit for the package [here](https://replit.com/@LeonCotten/OrchiDB?v=1).
+For the source code and update logs for OrchiDB vist the GitHub repository [here](https://github.com/H4drian/OrchiDB).
 
 # Setup
 To get started with OrchiDB, first download the npm module.
