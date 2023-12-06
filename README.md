@@ -56,7 +56,7 @@ myCollection.terminal.run() //Opens the terminal for the collection 'myCollectio
 - `delete(docName: string)` | Moves document to collection's trash folder
 - `getPath(docName: string)` | Returns the path to the document
 - `restore(docName: string)` | Moves document from trash to collection folder proper
-- `rename(docName: string, newDocName: string) | Renames document
+- `rename(docName: string, newDocName: string)` | Renames document
 - `emptyTrash()` | Permanently deletes all documents from trash folder
 - `overwrite(docName: string, data: obj)` | Overwrites all data in document to the data inputed
 - `copyCol(targetCollection: string)` | Copies all documents and collections to the target collection
