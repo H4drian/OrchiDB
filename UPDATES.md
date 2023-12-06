@@ -1,6 +1,6 @@
 # 4.1.0
-- added new function `has(docName: string)` that checks if a document exists inside of the collection
-- added UPDATES.md to log updates
+- Added new function `has(docName: string)` that checks if a document exists inside of the collection
+- Added UPDATES.md to log updates
 
 # 4.1.1
 - Removed uneeded replit files
@@ -22,7 +22,7 @@
 
 # 4.1.7
 - Removed more uneeded files
-- fixed version number
+- Fixed version number
 
 # 4.1.8
 - Fixed package being outdated during code transfer
