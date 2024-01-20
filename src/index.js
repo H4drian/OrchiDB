@@ -175,7 +175,7 @@ class Collection{
               console.log('');
               console.log("del_var: Delete a variable from a document.");
               console.log('');
-              console.log("find: Finds ever document in a collection with specified input properties.");
+              console.log("find: Finds every document in a collection with specified input properties.");
               console.log('');
               console.log("get_var: Return the value of a variable in a document.");
               console.log('');
