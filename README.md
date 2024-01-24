@@ -1,4 +1,6 @@
 ![OrchiDB_logo](OrchiDB.png)
+![Static Badge](https://img.shields.io/badge/Version-4.2.3-green)
+![Static Badge](https://img.shields.io/badge/Licence-MIT-blue)
 # OrchiDB
 OrchiDB is an Open-Source, JSON Document-Oriented database managment system with an emphasis on simple syntax and easy setup. OrchiDB can take queries using JavaScript code using the OrchiDB module or even through text based input through the built in terminal.
 
