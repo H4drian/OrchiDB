@@ -37,4 +37,7 @@
 - Changed the OrchiDB.png logo file into a transparent png
 
 # 4.2.2
-- Moved around files 
+- Moved around files
+
+# 4.2.3
+- Fixed typo in terminal
