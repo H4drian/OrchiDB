@@ -1,8 +1,8 @@
 ![OrchiDB_logo](OrchiDB.png)
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Repository-yellow?link=https%3A%2F%2Fgithub.com%2FH4drian%2FOrchiDB" alt="Repository">
-  <img src="https://img.shields.io/badge/NPM-red?link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Forchidb" alt="NPM">
+  <img src="https://img.shields.io/badge/Repository-Here-yellow?link=https%3A%2F%2Fgithub.com%2FH4drian%2FOrchiDB" alt="Repository">
+  <img src="https://img.shields.io/badge/NPM_Package-Here-yellow?cacheSeconds=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Forchidb" alt="NPM">
   <img src="https://img.shields.io/badge/Version-4.2.3-purple" alt="Version">
   <img src="https://img.shields.io/badge/Licence-MIT-blue?link=https%3A%2F%2Fopensource.org%2Flicense%2Fmit%2F" alt="Licence">
 </p>
