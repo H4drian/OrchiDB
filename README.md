@@ -1,3 +1,6 @@
+# WARNING:
+As of 2024 OrchiDB is currently not being maintained. Issues and pull requests can be made but updates from the main contributor(s) (H4diran) will cease.
+
 ![OrchiDB_logo](OrchiDB.png)
 
 <p align="center">
